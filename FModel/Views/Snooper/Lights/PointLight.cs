@@ -2,6 +2,7 @@
 using CUE4Parse.UE4.Assets.Exports;
 using CUE4Parse.UE4.Objects.Core.Misc;
 using FModel.Views.Snooper.Shading;
+using FModel.Views.Snooper.Textures;
 using ImGuiNET;
 
 namespace FModel.Views.Snooper.Lights;
@@ -11,7 +12,7 @@ public class PointLight : Light
     public float Linear;
     public float Quadratic;
 
-    public PointLight(Texture icon, UObject point) : base(icon, point)
+    public PointLight(ITexture icon, UObject point) : base(icon, point)
     {
         if (!point.TryGetValue(out float radius, "SourceRadius", "AttenuationRadius"))
             radius = 1.0f;
@@ -21,7 +22,7 @@ public class PointLight : Light
         Quadratic = 75.0f / MathF.Pow(radius, 2.0f);
     }
 
-    public PointLight(FGuid model, Texture icon, UObject parent, UObject point, Transform transform) : base(model, icon, parent, point, transform)
+    public PointLight(FGuid model, ITexture icon, UObject parent, UObject point, Transform transform) : base(model, icon, parent, point, transform)
     {
         if (!point.TryGetValue(out float radius, "AttenuationRadius", "SourceRadius"))
             radius = 1.0f;

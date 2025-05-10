@@ -5,6 +5,7 @@ using CUE4Parse.UE4.Objects.Core.Math;
 using CUE4Parse.UE4.Objects.Core.Misc;
 using FModel.Views.Snooper.Buffers;
 using FModel.Views.Snooper.Shading;
+using FModel.Views.Snooper.Textures;
 using ImGuiNET;
 using OpenTK.Graphics.OpenGL4;
 
@@ -29,14 +30,14 @@ public abstract class Light : IDisposable
         1f, -1f, 0
     };
     public readonly FGuid Model;
-    public readonly Texture Icon;
+    public readonly ITexture Icon;
     public Transform Transform;
 
     public Vector4 Color;
     public float Intensity;
     public bool IsSetup;
 
-    public Light(Texture icon, UObject light)
+    public Light(ITexture icon, UObject light)
     {
         Transform = new Transform
         {
@@ -52,7 +53,7 @@ public abstract class Light : IDisposable
         Intensity = light.GetOrDefault("Intensity", 1.0f);
     }
 
-    public Light(FGuid model, Texture icon, UObject parent, UObject light, Transform transform)
+    public Light(FGuid model, ITexture icon, UObject parent, UObject light, Transform transform)
     {
         Transform = new Transform
         {

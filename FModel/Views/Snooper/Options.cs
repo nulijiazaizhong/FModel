@@ -9,6 +9,7 @@ using FModel.Views.Snooper.Animations;
 using FModel.Views.Snooper.Lights;
 using FModel.Views.Snooper.Models;
 using FModel.Views.Snooper.Shading;
+using FModel.Views.Snooper.Textures;
 using SkiaSharp;
 
 namespace FModel.Views.Snooper;
@@ -22,48 +23,53 @@ public class Options
     public int SelectedAnimation{ get; private set; }
 
     public readonly Dictionary<FGuid, UModel> Models;
-    public readonly Dictionary<FGuid, Texture> Textures;
+    public readonly Dictionary<FGuid, ITexture> Textures;
     public readonly List<Light> Lights;
 
     public readonly TimeTracker Tracker;
     public readonly List<Animation> Animations;
 
-    public readonly Dictionary<string, Texture> Icons;
+    public readonly Dictionary<string, ITexture> Icons;
 
     private readonly string _game;
 
     public Options()
     {
         Models = new Dictionary<FGuid, UModel>();
-        Textures = new Dictionary<FGuid, Texture>();
+        Textures = new Dictionary<FGuid, ITexture>();
         Lights = new List<Light>();
 
         Tracker = new TimeTracker();
         Animations = new List<Animation>();
 
-        Icons = new Dictionary<string, Texture>
+        Icons = new Dictionary<string, ITexture>
         {
-            ["material"] = new ("materialicon"),
-            ["square"] = new ("square"),
-            ["square_off"] = new ("square_off"),
-            ["cube"] = new ("cube"),
-            ["cube_off"] = new ("cube_off"),
-            ["light"] = new ("light"),
-            ["light_off"] = new ("light_off"),
-            ["noimage"] = new ("T_Placeholder_Item_Image"),
-            ["checker"] = new ("checker"),
-            ["pointlight"] = new ("pointlight"),
-            ["spotlight"] = new ("spotlight"),
-            ["link_on"] = new ("link_on"),
-            ["link_off"] = new ("link_off"),
-            ["link_has"] = new ("link_has"),
-            ["tl_play"] = new ("tl_play"),
-            ["tl_pause"] = new ("tl_pause"),
-            ["tl_rewind"] = new ("tl_rewind"),
-            ["tl_forward"] = new ("tl_forward"),
-            ["tl_previous"] = new ("tl_previous"),
-            ["tl_next"] = new ("tl_next"),
+            ["material"] = new ApplicationTexture("materialicon"),
+            ["square"] = new ApplicationTexture("square"),
+            ["square_off"] = new ApplicationTexture("square_off"),
+            ["cube"] = new ApplicationTexture("cube"),
+            ["cube_off"] = new ApplicationTexture("cube_off"),
+            ["light"] = new ApplicationTexture("light"),
+            ["light_off"] = new ApplicationTexture("light_off"),
+            ["noimage"] = new ApplicationTexture("T_Placeholder_Item_Image"),
+            ["checker"] = new ApplicationTexture("checker"),
+            ["pointlight"] = new ApplicationTexture("pointlight"),
+            ["spotlight"] = new ApplicationTexture("spotlight"),
+            ["link_on"] = new ApplicationTexture("link_on"),
+            ["link_off"] = new ApplicationTexture("link_off"),
+            ["link_has"] = new ApplicationTexture("link_has"),
+            ["tl_play"] = new ApplicationTexture("tl_play"),
+            ["tl_pause"] = new ApplicationTexture("tl_pause"),
+            ["tl_rewind"] = new ApplicationTexture("tl_rewind"),
+            ["tl_forward"] = new ApplicationTexture("tl_forward"),
+            ["tl_previous"] = new ApplicationTexture("tl_previous"),
+            ["tl_next"] = new ApplicationTexture("tl_next"),
         };
+
+        foreach (var icon in Icons.Values)
+        {
+            icon.Setup();
+        }
 
         _game = Services.ApplicationService.ApplicationView.CUE4Parse.Provider.ProjectName.ToUpper();
 
@@ -72,11 +78,11 @@ public class Options
 
     public void SetupModelsAndLights()
     {
-        foreach (var model in Models.Values)
-        {
-            if (model.IsSetup) continue;
-            model.Setup(this);
-        }
+        // foreach (var model in Models.Values)
+        // {
+        //     if (model.IsSetup) continue;
+        //     model.Setup(this);
+        // }
 
         foreach (var light in Lights)
         {
@@ -185,29 +191,6 @@ public class Options
     {
         SelectedMorph = index;
         model.UpdateMorph(SelectedMorph);
-    }
-
-    public bool TryGetTexture(UTexture o, bool fix, out Texture texture)
-    {
-        var guid = o.LightingGuid;
-        if (Textures.TryGetValue(guid, out texture)) return texture != null;
-        if (o.Format == EPixelFormat.PF_BC6H) return false; // BC6H is not supported by Decode thus randomly crashes the app
-
-        var bitmap = o switch
-        {
-            UTexture2D texture2D => texture2D.Decode(UserSettings.Default.PreviewMaxTextureSize, UserSettings.Default.CurrentDir.TexturePlatform),
-            UTexture2DArray texture2DArray => texture2DArray.DecodeTextureArray(UserSettings.Default.CurrentDir.TexturePlatform)?.FirstOrDefault(),
-            _ => o.Decode(UserSettings.Default.CurrentDir.TexturePlatform)
-        };
-
-        if (bitmap is not null)
-        {
-            texture = new Texture(bitmap.ToSkBitmap(), o);
-            if (fix) TextureHelper.FixChannels(_game, texture);
-            Textures[guid] = texture;
-        }
-
-        return texture != null;
     }
 
     public bool TryGetModel(out UModel model) => Models.TryGetValue(SelectedModel, out model);

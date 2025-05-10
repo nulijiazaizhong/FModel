@@ -1,6 +1,7 @@
 ﻿using CUE4Parse.UE4.Assets.Exports;
 using CUE4Parse.UE4.Objects.Core.Misc;
 using FModel.Views.Snooper.Shading;
+using FModel.Views.Snooper.Textures;
 using ImGuiNET;
 
 namespace FModel.Views.Snooper.Lights;
@@ -11,7 +12,7 @@ public class SpotLight : Light
     public float InnerConeAngle;
     public float OuterConeAngle;
 
-    public SpotLight(Texture icon, UObject spot) : base(icon, spot)
+    public SpotLight(ITexture icon, UObject spot) : base(icon, spot)
     {
         if (!spot.TryGetValue(out Attenuation, "SourceRadius", "AttenuationRadius"))
             Attenuation = 1.0f;
@@ -23,7 +24,7 @@ public class SpotLight : Light
             InnerConeAngle = OuterConeAngle - 10;
     }
 
-    public SpotLight(FGuid model, Texture icon, UObject parent, UObject spot, Transform transform) : base(model, icon, parent, spot, transform)
+    public SpotLight(FGuid model, ITexture icon, UObject parent, UObject spot, Transform transform) : base(model, icon, parent, spot, transform)
     {
         if (!spot.TryGetValue(out Attenuation, "AttenuationRadius", "SourceRadius"))
             Attenuation = 1.0f;

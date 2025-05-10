@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Numerics;
 using FModel.Views.Snooper.Buffers;
 using FModel.Views.Snooper.Shading;
+using FModel.Views.Snooper.Textures;
 
 namespace FModel.Views.Snooper.Models;
 
-public interface IRenderableModel : IDisposable
+public interface IRenderableModel : IDelayedSetup
 {
     protected int Handle { get; set; }
     protected BufferObject<uint> Ebo { get; set; }
@@ -29,10 +29,7 @@ public interface IRenderableModel : IDisposable
     public bool IsSelected { get; set; }
     public bool ShowWireframe { get; set; }
 
-    public void Setup(Options options);
-    public void SetupInstances();
-    public void Render(Shader shader, Texture checker = null, bool outline = false);
+    public void Render(Shader shader, ITexture checker = null, bool outline = false);
     public void PickingRender(Shader shader);
-    public void Update(Options options);
     public void AddInstance(Transform transform);
 }

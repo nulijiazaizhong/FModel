@@ -1,5 +1,6 @@
 ﻿using System;
 using FModel.Views.Snooper.Shading;
+using FModel.Views.Snooper.Textures;
 using OpenTK.Graphics.OpenGL4;
 
 namespace FModel.Views.Snooper.Buffers;
@@ -11,15 +12,15 @@ public class FramebufferObject : IDisposable
 
     private int _width;
     private int _height;
+    private readonly MsaaTexture _framebufferTexture;
     private readonly RenderbufferObject _renderbuffer;
+    private readonly FramebufferTexture _postProcessingTexture;
 
     private BufferObject<uint> _ebo;
     private BufferObject<float> _vbo;
     private VertexArrayObject<float, uint> _vao;
 
     private Shader _shader;
-    private Texture _framebufferTexture;
-    private Texture _postProcessingTexture;
 
     public readonly uint[] Indices = { 0, 1, 2, 3, 4, 5 };
     public readonly float[] Vertices = {
@@ -37,7 +38,9 @@ public class FramebufferObject : IDisposable
     {
         _width = size.X;
         _height = size.Y;
+        _framebufferTexture = new MsaaTexture((uint) _width, (uint) _height);
         _renderbuffer = new RenderbufferObject(_width, _height);
+        _postProcessingTexture = new FramebufferTexture(_width, _height);
     }
 
     public void Setup()
@@ -45,8 +48,7 @@ public class FramebufferObject : IDisposable
         _framebufferHandle = GL.GenFramebuffer();
         Bind();
 
-        _framebufferTexture = new Texture((uint) _width, (uint) _height);
-
+        _framebufferTexture.Setup();
         _renderbuffer.Setup();
 
         _shader = new Shader("framebuffer");
@@ -69,7 +71,7 @@ public class FramebufferObject : IDisposable
         _postProcessingHandle = GL.GenFramebuffer();
         Bind(_postProcessingHandle);
 
-        _postProcessingTexture = new Texture(_width, _height);
+        _postProcessingTexture.Setup();
 
         status = GL.CheckFramebufferStatus(FramebufferTarget.Framebuffer);
         if (status != FramebufferErrorCode.FramebufferComplete)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 using FModel.Views.Snooper.Shading;
+using FModel.Views.Snooper.Textures;
 using ImGuiNET;
 
 namespace FModel.Views.Snooper.Animations;
@@ -61,7 +62,7 @@ public class TimeTracker : IDisposable
     }
 
     private readonly string[] _icons = { "tl_forward", "tl_pause", "tl_rewind" };
-    public void ImGuiTimeline(Snooper s, Save saver, Dictionary<string, Texture> icons, List<Animation> animations, Vector2 outliner, ImFontPtr fontPtr)
+    public void ImGuiTimeline(Snooper s, Save saver, Dictionary<string, ITexture> icons, List<Animation> animations, Vector2 outliner, ImFontPtr fontPtr)
     {
         var dpiScale = ImGui.GetWindowDpiScale();
         var thickness = 2.0f * dpiScale;

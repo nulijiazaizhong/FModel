@@ -9,6 +9,7 @@ using CUE4Parse.UE4.Objects.Core.Misc;
 using FModel.Extensions;
 using FModel.Settings;
 using FModel.Views.Snooper.Models;
+using FModel.Views.Snooper.Textures;
 using ImGuiNET;
 using OpenTK.Graphics.OpenGL4;
 
@@ -25,10 +26,10 @@ public class Material : IDisposable
     public int SelectedTexture;
     public bool IsUsed;
 
-    public Texture[] Diffuse;
-    public Texture[] Normals;
-    public Texture[] SpecularMasks;
-    public Texture[] Emissive;
+    public FGuid[] Diffuse;
+    public FGuid[] Normals;
+    public FGuid[] SpecularMasks;
+    public FGuid[] Emissive;
 
     public Vector4[] DiffuseColor;
     public Vector4[] EmissiveColor;
@@ -48,13 +49,13 @@ public class Material : IDisposable
         Path = "None";
         IsUsed = false;
 
-        Diffuse = Array.Empty<Texture>();
-        Normals = Array.Empty<Texture>();
-        SpecularMasks = Array.Empty<Texture>();
-        Emissive = Array.Empty<Texture>();
+        Diffuse = [];
+        Normals = [];
+        SpecularMasks = [];
+        Emissive = [];
 
-        DiffuseColor = Array.Empty<Vector4>();
-        EmissiveColor = Array.Empty<Vector4>();
+        DiffuseColor = [];
+        EmissiveColor = [];
         EmissiveRegion = new Vector4(0, 0, 1, 1);
     }
 
@@ -70,39 +71,36 @@ public class Material : IDisposable
         unrealMaterial.GetParams(Parameters, UserSettings.Default.MaterialExportFormat);
     }
 
-    public void Setup(Options options, int uvCount)
+    public void Validate(int uvCount)
     {
-        _handle = GL.CreateProgram();
-
         if (uvCount < 1 || Parameters.IsNull)
         {
-            Diffuse = [new Texture(FLinearColor.Gray)];
-            Normals = [new Texture(new FLinearColor(0.5f, 0.5f, 1f, 1f))];
-            SpecularMasks = [new Texture(new FLinearColor(1f, 0.5f, 0.5f, 1f))];
-            Emissive = new Texture[1];
-            DiffuseColor = FillColors(1, Diffuse, CMaterialParams2.DiffuseColors, Vector4.One);
+            Diffuse = [new LinearColorTexture(FLinearColor.Gray).Guid];
+            Normals = [new LinearColorTexture(new FLinearColor(0.5f, 0.5f, 1f, 1f)).Guid];
+            SpecularMasks = [];
+            Emissive = new FGuid[1];
+            DiffuseColor = FillColors(1, CMaterialParams2.DiffuseColors, Vector4.One);
             EmissiveColor = [Vector4.One];
         }
         else
         {
-            {   // textures
-                Diffuse = FillTextures(options, uvCount, Parameters.HasTopDiffuse, CMaterialParams2.Diffuse, CMaterialParams2.FallbackDiffuse, true);
-                Normals = FillTextures(options, uvCount, Parameters.HasTopNormals, CMaterialParams2.Normals, CMaterialParams2.FallbackNormals);
-                SpecularMasks = FillTextures(options, uvCount, Parameters.HasTopSpecularMasks, CMaterialParams2.SpecularMasks, CMaterialParams2.FallbackSpecularMasks);
-                Emissive = FillTextures(options, uvCount, true, CMaterialParams2.Emissive, CMaterialParams2.FallbackEmissive);
-            }
+            // textures
+            Diffuse = FillTextures(uvCount, Parameters.HasTopDiffuse, CMaterialParams2.Diffuse, CMaterialParams2.FallbackDiffuse, true);
+            Normals = FillTextures(uvCount, Parameters.HasTopNormals, CMaterialParams2.Normals, CMaterialParams2.FallbackNormals);
+            SpecularMasks = FillTextures(uvCount, Parameters.HasTopSpecularMasks, CMaterialParams2.SpecularMasks, CMaterialParams2.FallbackSpecularMasks);
+            Emissive = FillTextures(uvCount, true, CMaterialParams2.Emissive, CMaterialParams2.FallbackEmissive);
 
-            {   // colors
-                DiffuseColor = FillColors(uvCount, Diffuse, CMaterialParams2.DiffuseColors, Vector4.One);
-                EmissiveColor = FillColors(uvCount, Emissive, CMaterialParams2.EmissiveColors, Vector4.One);
-            }
+            // colors
+            DiffuseColor = FillColors(uvCount, CMaterialParams2.DiffuseColors, Vector4.One);
+            EmissiveColor = FillColors(uvCount, CMaterialParams2.EmissiveColors, Vector4.One);
 
             {   // ambient occlusion + color boost
-                if (Parameters.TryGetTexture2d(out var original, "M", "AEM", "AO") &&
-                    !original.Name.Equals("T_BlackMask") && options.TryGetTexture(original, false, out var transformed))
+                if (Parameters.TryGetTexture2d(out var original, "M", "AEM", "AO") && !original.Name.Equals("T_BlackMask"))
                 {
+                    AssetPool.Get().AddTexture(original, false);
+
                     HasAo = true;
-                    Ao = new AoParams { Texture = transformed };
+                    Ao = new AoParams { Texture = original.LightingGuid };
                     if (Parameters.TryGetLinearColor(out var l, "Skin Boost Color And Exponent"))
                     {
                         Ao.HasColorBoost = true;
@@ -133,72 +131,94 @@ public class Material : IDisposable
                         "EmissiveUVPositioning (RG)UpperLeft (BA)LowerRight"))
                     EmissiveRegion = new Vector4(EmissiveUVs.R, EmissiveUVs.G, EmissiveUVs.B, EmissiveUVs.A);
 
-                if ((Parameters.TryGetSwitch(out var swizzleRoughnessToGreen, "SwizzleRoughnessToGreen") && swizzleRoughnessToGreen) ||
-                    Parameters.Textures.ContainsKey("SRM"))
+                if ((Parameters.TryGetSwitch(out var swizzleRoughnessToGreen, "SwizzleRoughnessToGreen") && swizzleRoughnessToGreen) || Parameters.Textures.ContainsKey("SRM"))
                 {
                     foreach (var specMask in SpecularMasks)
                     {
-                        specMask.SwizzleMask = new []
+                        if (AssetPool.Get().TryGet<BitmapTexture>(specMask, out var bitmap))
                         {
-                            (int) PixelFormat.Red,
-                            (int) PixelFormat.Blue,
-                            (int) PixelFormat.Green,
-                            (int) PixelFormat.Alpha
-                        };
-                        specMask.Swizzle();
+                            bitmap.SwizzleMask =
+                            [
+                                (int) PixelFormat.Red,
+                                (int) PixelFormat.Blue,
+                                (int) PixelFormat.Green,
+                                (int) PixelFormat.Alpha
+                            ];
+                        }
                     }
                 }
             }
         }
     }
 
-    /// <param name="options">just the cache object</param>
+    public void Setup(bool broken)
+    {
+        _handle = GL.CreateProgram();
+
+        // if (broken)
+        // {
+        //     for (var i = 0; i < 1; i++)
+        //     {
+        //         Diffuse[i].Setup();
+        //         Normals[i].Setup();
+        //     }
+        // }
+        // else
+        // {
+        //     foreach (var diffuse in Diffuse) diffuse.Setup();
+        //     foreach (var normal in Normals) normal.Setup();
+        //     foreach (var specMask in SpecularMasks) specMask.Setup();
+        //     foreach (var emissive in Emissive) emissive.Setup();
+        // }
+    }
+
     /// <param name="uvCount">number of item in the array</param>
     /// <param name="top">has at least 1 clearly defined texture, else will go straight to fallback</param>
     /// <param name="triggers">list of texture parameter names by uv channel</param>
     /// <param name="fallback">fallback texture name to use if no top texture found</param>
     /// <param name="first">if no top texture, no fallback texture, then use the first texture found</param>
-    private Texture[] FillTextures(Options options, int uvCount, bool top, string[][] triggers, string fallback, bool first = false)
+    private FGuid[] FillTextures(int uvCount, bool top, string[][] triggers, string fallback, bool first = false)
     {
         UTexture original;
-        Texture transformed;
         var fix = fallback == CMaterialParams2.FallbackSpecularMasks;
-        var textures = new Texture[uvCount];
+        var textures = new FGuid[uvCount];
 
         if (top)
         {
             for (int i = 0; i < textures.Length; i++)
             {
-                if (Parameters.TryGetTexture2d(out original, triggers[i]) && options.TryGetTexture(original, fix, out transformed))
-                    textures[i] = transformed;
-                else if (i > 0 && textures[i - 1] != null)
+                if (Parameters.TryGetTexture2d(out original, triggers[i]))
+                {
+                    AssetPool.Get().AddTexture(original, fix);
+                    textures[i] = original.LightingGuid;
+                }
+                else if (i > 0)
                     textures[i] = textures[i - 1];
             }
         }
-        else if (Parameters.TryGetTexture2d(out original, fallback) && options.TryGetTexture(original, fix, out transformed))
+        else if (Parameters.TryGetTexture2d(out original, fallback))
         {
+            AssetPool.Get().AddTexture(original, fix);
             for (int i = 0; i < textures.Length; i++)
-                textures[i] = transformed;
+                textures[i] = original.LightingGuid;
         }
-        else if (first && Parameters.TryGetFirstTexture2d(out original) && options.TryGetTexture(original, fix, out transformed))
+        else if (first && Parameters.TryGetFirstTexture2d(out original))
         {
+            AssetPool.Get().AddTexture(original, fix);
             for (int i = 0; i < textures.Length; i++)
-                textures[i] = transformed;
+                textures[i] = original.LightingGuid;
         }
         return textures;
     }
 
     /// <param name="uvCount">number of item in the array</param>
-    /// <param name="textures">reference array</param>
     /// <param name="triggers">list of color parameter names by uv channel</param>
     /// <param name="fallback">fallback color to use if no trigger was found</param>
-    private Vector4[] FillColors(int uvCount, Texture[] textures, string[][] triggers, Vector4 fallback)
+    private Vector4[] FillColors(int uvCount, string[][] triggers, Vector4 fallback)
     {
         var colors = new Vector4[uvCount];
         for (int i = 0; i < colors.Length; i++)
         {
-            if (textures[i] == null) continue;
-
             if (Parameters.TryGetLinearColor(out var color, triggers[i]) && color is { A: > 0 })
             {
                 colors[i] = new Vector4(color.R, color.G, color.B, color.A);
@@ -211,38 +231,55 @@ public class Material : IDisposable
     public void Render(Shader shader)
     {
         var unit = 0;
+        ITexture bitmap;
+
         for (var i = 0; i < Diffuse.Length; i++)
         {
-            shader.SetUniform($"uParameters.Diffuse[{i}].Sampler", unit);
             shader.SetUniform($"uParameters.Diffuse[{i}].Color", DiffuseColor[i]);
-            Diffuse[i]?.Bind(TextureUnit.Texture0 + unit++);
+            if (AssetPool.Get().TryGetTexture(Diffuse[i], out bitmap))
+            {
+                shader.SetUniform($"uParameters.Diffuse[{i}].Sampler", unit);
+                bitmap?.Bind(TextureUnit.Texture0 + unit++);
+            }
         }
 
         for (var i = 0; i < Normals.Length; i++)
         {
-            shader.SetUniform($"uParameters.Normals[{i}].Sampler", unit);
-            Normals[i]?.Bind(TextureUnit.Texture0 + unit++);
+            if (AssetPool.Get().TryGetTexture(Normals[i], out bitmap))
+            {
+                shader.SetUniform($"uParameters.Normals[{i}].Sampler", unit);
+                bitmap?.Bind(TextureUnit.Texture0 + unit++);
+            }
         }
 
         for (var i = 0; i < SpecularMasks.Length; i++)
         {
-            shader.SetUniform($"uParameters.SpecularMasks[{i}].Sampler", unit);
-            SpecularMasks[i]?.Bind(TextureUnit.Texture0 + unit++);
+            if (AssetPool.Get().TryGetTexture(SpecularMasks[i], out bitmap))
+            {
+                shader.SetUniform($"uParameters.SpecularMasks[{i}].Sampler", unit);
+                bitmap?.Bind(TextureUnit.Texture0 + unit++);
+            }
         }
 
         for (var i = 0; i < Emissive.Length; i++)
         {
-            shader.SetUniform($"uParameters.Emissive[{i}].Sampler", unit);
-            shader.SetUniform($"uParameters.Emissive[{i}].Color", EmissiveColor[i]);
-            Emissive[i]?.Bind(TextureUnit.Texture0 + unit++);
+            if (AssetPool.Get().TryGetTexture(Emissive[i], out bitmap))
+            {
+                shader.SetUniform($"uParameters.Emissive[{i}].Color", EmissiveColor[i]);
+                shader.SetUniform($"uParameters.Emissive[{i}].Sampler", unit);
+                bitmap?.Bind(TextureUnit.Texture0 + unit++);
+            }
         }
 
-        Ao.Texture?.Bind(TextureUnit.Texture31);
-        shader.SetUniform("uParameters.Ao.Sampler", 31);
-        shader.SetUniform("uParameters.Ao.HasColorBoost", Ao.HasColorBoost);
-        shader.SetUniform("uParameters.Ao.ColorBoost.Color", Ao.ColorBoost.Color);
-        shader.SetUniform("uParameters.Ao.ColorBoost.Exponent", Ao.ColorBoost.Exponent);
-        shader.SetUniform("uParameters.HasAo", HasAo);
+        if (HasAo && AssetPool.Get().TryGetTexture(Ao.Texture, out bitmap))
+        {
+            bitmap?.Bind(TextureUnit.Texture31);
+            shader.SetUniform("uParameters.Ao.Sampler", 31);
+            shader.SetUniform("uParameters.Ao.HasColorBoost", Ao.HasColorBoost);
+            shader.SetUniform("uParameters.Ao.ColorBoost.Color", Ao.ColorBoost.Color);
+            shader.SetUniform("uParameters.Ao.ColorBoost.Exponent", Ao.ColorBoost.Exponent);
+            shader.SetUniform("uParameters.HasAo", HasAo);
+        }
 
         shader.SetUniform("uParameters.EmissiveRegion", EmissiveRegion);
         shader.SetUniform("uParameters.RoughnessMin", RoughnessMin);
@@ -311,7 +348,7 @@ public class Material : IDisposable
         }
     }
 
-    public bool ImGuiTextures(Dictionary<string, Texture> icons, UModel model)
+    public bool ImGuiTextures(Dictionary<string, ITexture> icons, UModel model)
     {
         if (ImGui.BeginTable("material_textures", 2))
         {
@@ -340,21 +377,24 @@ public class Material : IDisposable
             ImGui.EndTable();
         }
 
-        var texture = GetSelectedTexture() ?? icons["noimage"];
+        if (GetSelectedTexture() is not { } g || !AssetPool.Get().TryGetTexture(g, out var texture))
+        {
+            texture = icons["noimage"];
+        }
         ImGui.Image(texture.GetPointer(),
             new Vector2(ImGui.GetContentRegionAvail().X - ImGui.GetScrollX()),
             Vector2.Zero, Vector2.One);
         return ImGui.IsItemHovered() && ImGui.IsMouseDoubleClicked(ImGuiMouseButton.Left);
     }
 
-    public Texture GetSelectedTexture()
+    public FGuid? GetSelectedTexture()
     {
         return SelectedTexture switch
         {
             0 when Diffuse.Length > 0 => Diffuse[SelectedChannel],
             1 when Normals.Length > 0 => Normals[SelectedChannel],
             2 when SpecularMasks.Length > 0 => SpecularMasks[SelectedChannel],
-            3 => Ao.Texture,
+            3 when HasAo => Ao.Texture,
             4 when Emissive.Length > 0 => Emissive[SelectedChannel],
             _ => null
         };
@@ -371,30 +411,13 @@ public class Material : IDisposable
 
     public void Dispose()
     {
-        for (int i = 0; i < Diffuse.Length; i++)
-        {
-            Diffuse[i]?.Dispose();
-        }
-        for (int i = 0; i < Normals.Length; i++)
-        {
-            Normals[i]?.Dispose();
-        }
-        for (int i = 0; i < SpecularMasks.Length; i++)
-        {
-            SpecularMasks[i]?.Dispose();
-        }
-        for (int i = 0; i < Emissive.Length; i++)
-        {
-            Emissive[i]?.Dispose();
-        }
-        Ao.Texture?.Dispose();
         GL.DeleteProgram(_handle);
     }
 }
 
 public struct AoParams
 {
-    public Texture Texture;
+    public FGuid Texture;
 
     public Boost ColorBoost;
     public bool HasColorBoost;

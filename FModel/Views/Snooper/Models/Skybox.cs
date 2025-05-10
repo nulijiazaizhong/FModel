@@ -2,6 +2,7 @@
 using System.Numerics;
 using FModel.Views.Snooper.Buffers;
 using FModel.Views.Snooper.Shading;
+using FModel.Views.Snooper.Textures;
 using OpenTK.Graphics.OpenGL4;
 
 namespace FModel.Views.Snooper.Models;
@@ -16,7 +17,7 @@ public class Skybox : IDisposable
 
     private string[] _textures = { "px", "nx", "py", "ny", "pz", "nz" };
 
-    private Texture _cubeMap;
+    private ITexture _cubeMap;
     private Shader _shader;
 
     public readonly uint[] Indices = { 0, 1, 3, 1, 2, 3 };
@@ -75,7 +76,7 @@ public class Skybox : IDisposable
         _vbo = new BufferObject<float>(Vertices, BufferTarget.ArrayBuffer);
         _vao = new VertexArrayObject<float, uint>(_vbo, _ebo);
 
-        _cubeMap = new Texture(_textures);
+        _cubeMap = new ApplicationTexture(_textures);
         _shader = new Shader("skybox");
 
         _vao.VertexAttributePointer(0, 3, VertexAttribPointerType.Float, 3, 0); // position

@@ -37,7 +37,7 @@ public class Snooper : GameWindow
     public bool TryLoadExport(CancellationToken cancellationToken, UObject dummy, Lazy<UObject> export)
     {
         Renderer.Load(cancellationToken, dummy, export);
-        return Renderer.Options.Models.Count > 0;
+        return ThreadPool.PendingWorkItemCount > 0 || !AssetPool.Get().Queue.IsEmpty;
     }
 
     public unsafe void WindowShouldClose(bool value, bool clear)

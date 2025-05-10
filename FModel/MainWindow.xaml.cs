@@ -63,7 +63,6 @@ public partial class MainWindow
 
         await ApplicationViewModel.InitOodle();
         await ApplicationViewModel.InitZlib();
-        await ApplicationViewModel.InitDetex();
         await _applicationView.CUE4Parse.Initialize();
         await _applicationView.AesManager.InitAes();
         await _applicationView.UpdateProvider(true);
@@ -74,6 +73,7 @@ public partial class MainWindow
             _applicationView.CUE4Parse.VerifyConsoleVariables(),
             _applicationView.CUE4Parse.VerifyOnDemandArchives(),
             _applicationView.CUE4Parse.InitMappings(),
+            ApplicationViewModel.InitDetex(),
             ApplicationViewModel.InitVgmStream(),
             ApplicationViewModel.InitImGuiSettings(newOrUpdated),
             Task.Run(() =>
@@ -86,7 +86,10 @@ public partial class MainWindow
 #if DEBUG
         // await _threadWorkerView.Begin(cancellationToken =>
         //     _applicationView.CUE4Parse.Extract(cancellationToken,
-        //         _applicationView.CUE4Parse.Provider["Marvel/Content/Marvel/Wwise/Assets/Events/Music/music_new/event/Entry.uasset"]));
+        //         _applicationView.CUE4Parse.Provider["FortniteGame/Plugins/GameFeatures/BRCosmetics/Content/Characters/Player/Male/Medium/Bodies/M_MED_Lunch_Box/Meshes/M_MED_Lunch_Box.uasset"]));
+        await _threadWorkerView.Begin(cancellationToken =>
+            _applicationView.CUE4Parse.Extract(cancellationToken,
+                _applicationView.CUE4Parse.Provider["FortniteGame/Plugins/GameFeatures/BlastBerryMap/Content/Maps/BlastBerry_Terrain/_Generated_/D5V3O7ZS9ZLQKFKU6WFZ27OYW.umap"]));
 #endif
     }
 

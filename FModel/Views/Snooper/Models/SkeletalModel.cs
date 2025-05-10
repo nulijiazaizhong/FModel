@@ -131,9 +131,9 @@ public class SkeletalModel : UModel
         IsVisible = true;
     }
 
-    public override void Setup(Options options)
+    public override void Setup()
     {
-        base.Setup(options);
+        base.Setup();
 
         Skeleton.Setup();
         if (!HasMorphTargets) return;

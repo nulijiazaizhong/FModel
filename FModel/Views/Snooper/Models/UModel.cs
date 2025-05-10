@@ -9,10 +9,12 @@ using CUE4Parse.UE4.Assets;
 using CUE4Parse.UE4.Assets.Exports;
 using CUE4Parse.UE4.Assets.Exports.Material;
 using CUE4Parse.UE4.Objects.Core.Math;
+using CUE4Parse.UE4.Objects.Core.Misc;
 using CUE4Parse.Utils;
 using FModel.Settings;
 using FModel.Views.Snooper.Buffers;
 using FModel.Views.Snooper.Shading;
+using FModel.Views.Snooper.Textures;
 using OpenTK.Graphics.OpenGL4;
 
 namespace FModel.Views.Snooper.Models;
@@ -31,15 +33,15 @@ public abstract class UModel : IRenderableModel
     private readonly UObject _export;
     private readonly List<VertexAttribute> _vertexAttributes =
     [
-        new VertexAttribute { Size = 1, Type = VertexAttribPointerType.Int, Enabled = false },    // VertexIndex
-        new VertexAttribute { Size = 3, Type = VertexAttribPointerType.Float, Enabled = true },   // Position
-        new VertexAttribute { Size = 3, Type = VertexAttribPointerType.Float, Enabled = false },  // Normal
-        new VertexAttribute { Size = 3, Type = VertexAttribPointerType.Float, Enabled = false },  // Tangent
-        new VertexAttribute { Size = 2, Type = VertexAttribPointerType.Float, Enabled = false },  // UV
-        new VertexAttribute { Size = 1, Type = VertexAttribPointerType.Float, Enabled = false },  // TextureLayer
-        new VertexAttribute { Size = 1, Type = VertexAttribPointerType.Float, Enabled = false },  // Colors
-        new VertexAttribute { Size = 4, Type = VertexAttribPointerType.Float, Enabled = false },  // BoneIds
-        new VertexAttribute { Size = 4, Type = VertexAttribPointerType.Float, Enabled = false }   // BoneWeights
+        new() { Size = 1, Type = VertexAttribPointerType.Int, Enabled = false },    // VertexIndex
+        new() { Size = 3, Type = VertexAttribPointerType.Float, Enabled = true },   // Position
+        new() { Size = 3, Type = VertexAttribPointerType.Float, Enabled = false },  // Normal
+        new() { Size = 3, Type = VertexAttribPointerType.Float, Enabled = false },  // Tangent
+        new() { Size = 2, Type = VertexAttribPointerType.Float, Enabled = false },  // UV
+        new() { Size = 1, Type = VertexAttribPointerType.Float, Enabled = false },  // TextureLayer
+        new() { Size = 1, Type = VertexAttribPointerType.Float, Enabled = false },  // Colors
+        new() { Size = 4, Type = VertexAttribPointerType.Float, Enabled = false },  // BoneIds
+        new() { Size = 4, Type = VertexAttribPointerType.Float, Enabled = false }   // BoneWeights
     ];
 
     public int Handle { get; set; }
@@ -48,6 +50,7 @@ public abstract class UModel : IRenderableModel
     public BufferObject<Matrix4x4> MatrixVbo { get; set; }
     public VertexArrayObject<float, uint> Vao { get; set; }
 
+    public FGuid Guid { get; set; }
     public string Path { get; }
     public string Name { get; }
     public string Type { get; protected set; }
@@ -177,13 +180,13 @@ public abstract class UModel : IRenderableModel
         {
             var section = lod.Sections.Value[s];
             Sections[s] = new Section(section.MaterialIndex, section.NumFaces * 3, section.FirstIndex);
-            if (section.IsValid) Sections[s].SetupMaterial(Materials[section.MaterialIndex]);
+            if (section.IsValid) Sections[s].ValidateMaterial(Materials[section.MaterialIndex], UvCount);
         }
 
         AddInstance(transform ?? Transform.Identity);
     }
 
-    public virtual void Setup(Options options)
+    public virtual void Setup()
     {
         Handle = GL.CreateProgram();
         Ebo = new BufferObject<uint>(Indices, BufferTarget.ElementArrayBuffer);
@@ -211,7 +214,7 @@ public abstract class UModel : IRenderableModel
         for (var i = 0; i < Materials.Length; i++)
         {
             if (!Materials[i].IsUsed) continue;
-            Materials[i].Setup(options, broken ? 1 : UvCount);
+            Materials[i].Setup(broken);
         }
 
         foreach (var collision in Collisions)
@@ -219,7 +222,7 @@ public abstract class UModel : IRenderableModel
             collision.Setup();
         }
 
-        if (options.Models.Count == 1 && Sections.All(x => !x.Show)) // visible if alone and invisible
+        // if (options.Models.Count == 1 && Sections.All(x => !x.Show)) // visible if alone and invisible
         {
             IsVisible = true;
             foreach (var section in Sections)
@@ -227,26 +230,26 @@ public abstract class UModel : IRenderableModel
                 section.Show = true;
             }
         }
-        else if (!IsVisible) // default: visible if one section is visible
-        {
-            foreach (var section in Sections)
-            {
-                if (section.Show)
-                {
-                    IsVisible = true;
-                    break;
-                }
-            }
-        }
-        else foreach (var section in Sections) // force visibility
-        {
-            section.Show = true;
-        }
+        // else if (!IsVisible) // default: visible if one section is visible
+        // {
+        //     foreach (var section in Sections)
+        //     {
+        //         if (section.Show)
+        //         {
+        //             IsVisible = true;
+        //             break;
+        //         }
+        //     }
+        // }
+        // else foreach (var section in Sections) // force visibility
+        // {
+        //     section.Show = true;
+        // }
 
         IsSetup = true;
     }
 
-    public virtual void Render(Shader shader, Texture checker = null, bool outline = false)
+    public virtual void Render(Shader shader, ITexture checker = null, bool outline = false)
     {
         if (outline) GL.Disable(EnableCap.DepthTest);
         if (IsTwoSided) GL.Disable(EnableCap.CullFace);
@@ -332,7 +335,7 @@ public abstract class UModel : IRenderableModel
         shader.SetUniform("uScaleDown", Constants.SCALE_DOWN_RATIO);
     }
 
-    public void Update(Options options)
+    public void Update()
     {
         MatrixVbo.Bind();
         for (int instance = 0; instance < TransformsCount; instance++)
@@ -353,11 +356,11 @@ public abstract class UModel : IRenderableModel
             var socketRelation = boneMatrix * worldMatrix;
             foreach (var info in socket.AttachedModels)
             {
-                if (!options.TryGetModel(info.Guid, out var attachedModel))
+                if (!AssetPool.Get().TryGetModel(info.Guid, out var attachedModel))
                     continue;
 
                 attachedModel.Transforms[info.Instance].Relation = socket.Transform.LocalMatrix * socketRelation;
-                attachedModel.Update(options);
+                attachedModel.Update();
             }
         }
     }

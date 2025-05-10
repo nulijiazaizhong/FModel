@@ -11,6 +11,7 @@ using FModel.Settings;
 using FModel.Views.Snooper.Animations;
 using FModel.Views.Snooper.Models;
 using FModel.Views.Snooper.Shading;
+using FModel.Views.Snooper.Textures;
 using ImGuizmoNET;
 using OpenTK.Graphics.OpenGL4;
 
@@ -174,7 +175,7 @@ public class SnimGui
         if (ImGui.BeginTable("world_details", 2, ImGuiTableFlags.SizingStretchProp))
         {
             var b = false;
-            var length = s.Renderer.Options.Models.Count;
+            var length = AssetPool.Get().Models.Count;
 
             NoFramePaddingOnY(() =>
             {
@@ -184,7 +185,7 @@ public class SnimGui
 
                 if (ImGui.SmallButton("Save All"))
                 {
-                    foreach (var model in s.Renderer.Options.Models.Values)
+                    foreach (var model in AssetPool.Get().Models.Values)
                     {
                         b |= model.Save(out _, out _);
                     }
@@ -239,12 +240,12 @@ public class SnimGui
         for (int i = 0; i < s.Renderer.Options.Lights.Count; i++)
         {
             var light = s.Renderer.Options.Lights[i];
-            var id = s.Renderer.Options.TryGetModel(light.Model, out var lightModel) ? lightModel.Name : "None";
+            var id = AssetPool.Get().TryGetModel(light.Model, out var lightModel) ? lightModel.Name : "None";
 
             id += $"##{i}";
             if (ImGui.TreeNode(id) && ImGui.BeginTable(id, 2))
             {
-                s.Renderer.Options.SelectModel(light.Model);
+                AssetPool.Get().SelectModel(light.Model);
                 light.ImGuiLight();
                 ImGui.EndTable();
                 ImGui.TreePop();
@@ -380,7 +381,7 @@ Snooper aims to give an accurate preview of models, materials, skeletal animatio
                 ImGui.TableHeadersRow();
 
                 var i = 0;
-                foreach ((var guid, var model) in s.Renderer.Options.Models)
+                foreach ((var guid, var model) in AssetPool.Get().Models)
                 {
                     ImGui.PushID(i);
                     ImGui.TableNextRow();
@@ -397,14 +398,14 @@ Snooper aims to give an accurate preview of models, materials, skeletal animatio
                     ImGui.Text(model.UvCount.ToString("D"));
                     ImGui.TableNextColumn();
                     var doubleClick = false;
-                    if (ImGui.Selectable(model.Name, s.Renderer.Options.SelectedModel == guid, ImGuiSelectableFlags.SpanAllColumns | ImGuiSelectableFlags.AllowDoubleClick))
+                    if (ImGui.Selectable(model.Name, AssetPool.Get().SelectedModel == guid, ImGuiSelectableFlags.SpanAllColumns | ImGuiSelectableFlags.AllowDoubleClick))
                     {
-                        s.Renderer.Options.SelectModel(guid);
+                        AssetPool.Get().SelectModel(guid);
                         doubleClick = ImGui.IsMouseDoubleClicked(ImGuiMouseButton.Left);
                     }
                     Popup(() =>
                     {
-                        s.Renderer.Options.SelectModel(guid);
+                        AssetPool.Get().SelectModel(guid);
                         if (ImGui.MenuItem("Show", null, model.IsVisible)) model.IsVisible = !model.IsVisible;
                         if (ImGui.MenuItem("Wireframe", null, model.ShowWireframe)) model.ShowWireframe = !model.ShowWireframe;
                         if (ImGui.MenuItem("Collisions", null, model.ShowCollisions, model.HasCollisions)) model.ShowCollisions = !model.ShowCollisions;
@@ -443,7 +444,7 @@ Snooper aims to give an accurate preview of models, materials, skeletal animatio
                         doubleClick = ImGui.MenuItem("Teleport To");
 
                         if (ImGui.MenuItem("Delete")) s.Renderer.Options.RemoveModel(guid);
-                        if (ImGui.MenuItem("Deselect")) s.Renderer.Options.SelectModel(Guid.Empty);
+                        if (ImGui.MenuItem("Deselect")) AssetPool.Get().SelectModel(Guid.Empty);
                         ImGui.Separator();
                         if (ImGui.MenuItem("Copy Path to Clipboard")) ImGui.SetClipboardText(model.Path);
                     });
@@ -470,8 +471,8 @@ Snooper aims to give an accurate preview of models, materials, skeletal animatio
     {
         MeshWindow("Sockets", s.Renderer, (icons, selectedModel) =>
         {
-            var info = new SocketAttachementInfo { Guid = s.Renderer.Options.SelectedModel, Instance = selectedModel.SelectedInstance };
-            foreach (var model in s.Renderer.Options.Models.Values)
+            var info = new SocketAttachementInfo { Guid = AssetPool.Get().SelectedModel, Instance = selectedModel.SelectedInstance };
+            foreach (var model in AssetPool.Get().Models.Values)
             {
                 if (!model.HasSockets || model.IsSelected) continue;
                 if (ImGui.TreeNode($"{model.Name} [{model.Sockets.Count}]"))
@@ -511,7 +512,7 @@ Snooper aims to give an accurate preview of models, materials, skeletal animatio
                 NoFramePaddingOnY(() =>
                 {
                     Layout("Entity");ImGui.Text($"  :  ({model.Type}) {model.Name}");
-                    Layout("Guid");ImGui.Text($"  :  {s.Renderer.Options.SelectedModel.ToString(EGuidFormats.UniqueObjectGuid)}");
+                    Layout("Guid");ImGui.Text($"  :  {AssetPool.Get().SelectedModel.ToString(EGuidFormats.UniqueObjectGuid)}");
                     if (model is SkeletalModel skeletalModel)
                     {
                         Layout("Skeleton");ImGui.Text($"  :  {skeletalModel.Skeleton.Name}");
@@ -666,7 +667,7 @@ Snooper aims to give an accurate preview of models, materials, skeletal animatio
         ImGui.PopStyleVar();
     }
 
-    private void DrawMaterialInspector(Dictionary<string, Texture> icons, UModel model, Section section)
+    private void DrawMaterialInspector(Dictionary<string, ITexture> icons, UModel model, Section section)
     {
         var material = model.Materials[section.MaterialIndex];
 
@@ -726,9 +727,13 @@ Snooper aims to give an accurate preview of models, materials, skeletal animatio
         if (!_tiOpen) return;
         if (ImGui.Begin("Texture Inspector", ref _tiOpen, ImGuiWindowFlags.NoScrollbar))
         {
-            if (s.Renderer.Options.TryGetModel(out var model) && s.Renderer.Options.TryGetSection(model, out var section))
+            if (AssetPool.Get().TryGetModel(out var model) && s.Renderer.Options.TryGetSection(model, out var section))
             {
-                (model.Materials[section.MaterialIndex].GetSelectedTexture() ?? s.Renderer.Options.Icons["noimage"]).ImGuiTextureInspector();
+                if (model.Materials[section.MaterialIndex].GetSelectedTexture() is not { } g || !AssetPool.Get().TryGetTexture(g, out var texture))
+                {
+                    texture = s.Renderer.Options.Icons["noimage"];
+                }
+                texture.ImGuiInspector();
             }
         }
         ImGui.End();
@@ -741,7 +746,7 @@ Snooper aims to give an accurate preview of models, materials, skeletal animatio
         ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, Vector2.Zero);
         if (ImGui.Begin("Skeleton Tree", ref s.Renderer.IsSkeletonTreeOpen, ImGuiWindowFlags.NoScrollbar))
         {
-            if (s.Renderer.Options.TryGetModel(out var model) && model is SkeletalModel skeletalModel)
+            if (AssetPool.Get().TryGetModel(out var model) && model is SkeletalModel skeletalModel)
             {
                 skeletalModel.Skeleton.ImGuiBoneBreadcrumb();
                 if (ImGui.BeginTable("skeleton_tree", 2, ImGuiTableFlags.NoSavedSettings | ImGuiTableFlags.RowBg, ImGui.GetContentRegionAvail(), ImGui.GetWindowWidth()))
@@ -793,7 +798,7 @@ Snooper aims to give an accurate preview of models, materials, skeletal animatio
                     if (ImGui.IsMouseClicked(ImGuiMouseButton.Right))
                     {
                         var guid = s.Renderer.Picking.ReadPixel(ImGui.GetMousePos(), ImGui.GetCursorScreenPos(), size);
-                        s.Renderer.Options.SelectModel(guid);
+                        AssetPool.Get().SelectModel(guid);
                         ImGui.SetWindowFocus("Outliner");
                         ImGui.SetWindowFocus("Details");
                     }
@@ -847,7 +852,7 @@ Snooper aims to give an accurate preview of models, materials, skeletal animatio
 
     private void DrawGuizmo(Snooper s)
     {
-        var enableGuizmo = s.Renderer.Options.TryGetModel(out var selected) && selected.IsVisible;
+        var enableGuizmo = AssetPool.Get().TryGetModel(out var selected) && selected.IsVisible;
         if (enableGuizmo)
         {
             var view = s.Renderer.CameraOp.GetViewMatrix();
@@ -903,16 +908,16 @@ Snooper aims to give an accurate preview of models, materials, skeletal animatio
         ImGui.End();
     }
 
-    private void MeshWindow(string name, Renderer renderer, Action<Dictionary<string, Texture>, UModel> content, bool styled = true)
+    private void MeshWindow(string name, Renderer renderer, Action<Dictionary<string, ITexture>, UModel> content, bool styled = true)
     {
         Window(name, () =>
         {
-            if (renderer.Options.TryGetModel(out var model)) content(renderer.Options.Icons, model);
+            if (AssetPool.Get().TryGetModel(out var model)) content(renderer.Options.Icons, model);
             else NoMeshSelected();
         }, styled);
     }
 
-    private void SectionWindow(string name, Renderer renderer, Action<Dictionary<string, Texture>, UModel, Section> content, bool styled = true)
+    private void SectionWindow(string name, Renderer renderer, Action<Dictionary<string, ITexture>, UModel, Section> content, bool styled = true)
     {
         MeshWindow(name, renderer, (icons, model) =>
         {
@@ -921,7 +926,7 @@ Snooper aims to give an accurate preview of models, materials, skeletal animatio
         }, styled);
     }
 
-    private void AnimationWindow(string name, Renderer renderer, Action<Dictionary<string, Texture>, TimeTracker, List<Animation>> content, bool styled = true)
+    private void AnimationWindow(string name, Renderer renderer, Action<Dictionary<string, ITexture>, TimeTracker, List<Animation>> content, bool styled = true)
     {
         ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, Vector2.Zero);
         Window(name, () => content(renderer.Options.Icons, renderer.Options.Tracker, renderer.Options.Animations), styled);

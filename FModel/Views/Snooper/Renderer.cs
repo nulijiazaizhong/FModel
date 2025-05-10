@@ -86,13 +86,13 @@ public class Renderer : IDisposable
         switch (dummy)
         {
             case UStaticMesh when export.Value is UStaticMesh st:
-                LoadStaticMesh(st);
+                AssetPool.Get().AddModel(st);
                 break;
             case USkeletalMesh when export.Value is USkeletalMesh sk:
-                LoadSkeletalMesh(sk);
+                AssetPool.Get().AddModel(sk);
                 break;
             case USkeleton when export.Value is USkeleton skel:
-                LoadSkeleton(skel);
+                AssetPool.Get().AddModel(skel);
                 break;
             case UMaterialInstance when export.Value is UMaterialInstance mi:
                 LoadMaterialInstance(mi);
@@ -117,7 +117,7 @@ public class Renderer : IDisposable
         if (!Options.TryGetModel(out var model) || !Options.TryGetSection(model, out var section)) return;
 
         model.Materials[section.MaterialIndex].SwapMaterial(unrealMaterial);
-        Application.Current.Dispatcher.Invoke(() => model.Materials[section.MaterialIndex].Setup(Options, model.UvCount));
+        // Application.Current.Dispatcher.Invoke(() => model.Materials[section.MaterialIndex].Setup(model.UvCount));
     }
 
     public void Animate(UObject anim)
@@ -242,7 +242,7 @@ public class Renderer : IDisposable
         _collision = new Shader("collision", "bone");
 
         Picking.Setup();
-        Options.SetupModelsAndLights();
+        // Options.SetupModelsAndLights();
     }
 
     public void Render()
@@ -258,9 +258,8 @@ public class Renderer : IDisposable
             _shader.SetUniform($"bVertexColors[{i}]", i == (int) Color);
 
         // render model pass
-        foreach (var model in Options.Models.Values)
+        foreach (var model in AssetPool.Get().Models.Values.Where(model => model.IsVisible))
         {
-            if (!model.IsVisible) continue;
             model.Render(_shader, Color == VertexColor.TextureCoordinates ? Options.Icons["checker"] : null);
         }
 
@@ -278,7 +277,7 @@ public class Renderer : IDisposable
         }
 
         // debug + outline pass
-        if (Options.TryGetModel(out var selected) && selected.IsVisible)
+        if (AssetPool.Get().TryGetModel(out var selected) && selected.IsVisible)
         {
             if (IsSkeletonTreeOpen && selected is SkeletalModel skeletalModel)
             {
@@ -296,7 +295,7 @@ public class Renderer : IDisposable
         }
 
         // picking pass (dedicated FBO, binding to 0 afterward)
-        Picking.Render(viewMatrix, projMatrix, Options.Models);
+        Picking.Render(viewMatrix, projMatrix);
     }
 
     public void Update(Snooper wnd, float deltaSeconds)
@@ -313,14 +312,15 @@ public class Renderer : IDisposable
         }
 
         {
-            foreach (var model in Options.Models.Values)
-            {
-                model.Update(Options);
-            }
-            if (IsSkeletonTreeOpen && Options.TryGetModel(out var selected) && selected is SkeletalModel { IsVisible: true } skeletalModel)
-            {
-                skeletalModel.Skeleton.UpdateVertices();
-            }
+            AssetPool.Get().OnTick();
+            // foreach (var model in Options.Models.Values)
+            // {
+            //     model.Update(Options);
+            // }
+            // if (IsSkeletonTreeOpen && Options.TryGetModel(out var selected) && selected is SkeletalModel { IsVisible: true } skeletalModel)
+            // {
+            //     skeletalModel.Skeleton.UpdateVertices();
+            // }
         }
 
         CameraOp.Modify(wnd.KeyboardState, deltaSeconds);
@@ -343,33 +343,6 @@ public class Renderer : IDisposable
             wnd.WindowShouldClose(true, true);
     }
 
-    private void LoadStaticMesh(UStaticMesh original)
-    {
-        var guid = original.LightingGuid;
-        if (Options.TryGetModel(guid, out var model))
-        {
-            model.AddInstance(Transform.Identity);
-            Application.Current.Dispatcher.Invoke(() => model.SetupInstances());
-            return;
-        }
-
-        if (!original.TryConvert(out var mesh))
-            return;
-
-        Options.Models[guid] = new StaticModel(original, mesh);
-        Options.SelectModel(guid);
-    }
-
-    private void LoadSkeletalMesh(USkeletalMesh original)
-    {
-        var guid = new FGuid((uint) original.GetFullName().GetHashCode());
-        if (Options.Models.ContainsKey(guid) || !original.TryConvert(out var mesh)) return;
-
-        var skeletalModel = new SkeletalModel(original, mesh);
-        Options.Models[guid] = skeletalModel;
-        Options.SelectModel(guid);
-    }
-
     private void LoadSkeleton(USkeleton original)
     {
         var guid = original.Guid;
@@ -390,7 +363,7 @@ public class Renderer : IDisposable
         if (Options.TryGetModel(guid, out var model))
         {
             model.Materials[0].SwapMaterial(original);
-            Application.Current.Dispatcher.Invoke(() => model.Materials[0].Setup(Options, model.UvCount));
+            // Application.Current.Dispatcher.Invoke(() => model.Materials[0].Setup(Options, model.UvCount));
             return;
         }
 
@@ -410,7 +383,7 @@ public class Renderer : IDisposable
         if (Options.TryGetModel(guid, out var model))
         {
             model.AddInstance(Transform.Identity);
-            Application.Current.Dispatcher.Invoke(() => model.SetupInstances());
+            // Application.Current.Dispatcher.Invoke(() => model.SetupInstances());
             return;
         }
 
@@ -589,87 +562,18 @@ public class Renderer : IDisposable
     }
     private void ProcessMesh(IPropertyHolder actor, UObject staticMeshComp, UStaticMesh m, Transform transform, bool forceShow)
     {
-        var bSpline = staticMeshComp is USplineMeshComponent;
-        var guid = m.LightingGuid;
-        if (Options.TryGetModel(guid, out var model))
-        {
-            model.AddInstance(transform);
-            if (bSpline && model is SplineModel splineModel)
-                splineModel.AddComponent((USplineMeshComponent)staticMeshComp);
-        }
-        else if (m.TryConvert(out var mesh))
-        {
-            model = bSpline ? new SplineModel(m, mesh, (USplineMeshComponent)staticMeshComp, transform) : new StaticModel(m, mesh, transform);
-            model.IsTwoSided = actor.GetOrDefault("bMirrored", staticMeshComp.GetOrDefault("bDisallowMeshPaintPerInstance", model.IsTwoSided));
+        AssetPool.Get().AddModel(actor, staticMeshComp, m, transform);
 
-            if (actor.TryGetAllValues(out FPackageIndex[] textureData, "TextureData"))
-            {
-                var material = model.Materials.FirstOrDefault();
-                if (material is { IsUsed: true })
-                {
-                    for (int j = 0; j < textureData.Length; j++)
-                    {
-                        if (textureData[j]?.Load() is not { } textureDataIdx)
-                            continue;
-
-                        if (textureDataIdx.TryGetValue(out FPackageIndex overrideMaterial, "OverrideMaterial") &&
-                            overrideMaterial.TryLoad(out var oMaterial) && oMaterial is UMaterialInterface oUnrealMaterial)
-                            material.SwapMaterial(oUnrealMaterial);
-
-                        WorldTextureData(material, textureDataIdx, "Diffuse", j switch
-                        {
-                            0 => "Diffuse",
-                            > 0 => $"Diffuse_Texture_{j + 1}",
-                            _ => CMaterialParams2.FallbackDiffuse
-                        });
-                        WorldTextureData(material, textureDataIdx, "Normal", j switch
-                        {
-                            0 => "Normals",
-                            > 0 => $"Normals_Texture_{j + 1}",
-                            _ => CMaterialParams2.FallbackNormals
-                        });
-                        WorldTextureData(material, textureDataIdx, "Specular", j switch
-                        {
-                            0 => "SpecularMasks",
-                            > 0 => $"SpecularMasks_{j + 1}",
-                            _ => CMaterialParams2.FallbackNormals
-                        });
-                    }
-                }
-            }
-
-            if (staticMeshComp.TryGetValue(out FPackageIndex[] overrideMaterials, "OverrideMaterials"))
-            {
-                for (var j = 0; j < overrideMaterials.Length && j < model.Sections.Length; j++)
-                {
-                    var matIndex = model.Sections[j].MaterialIndex;
-                    if (matIndex < 0 || matIndex >= model.Materials.Length || matIndex >= overrideMaterials.Length ||
-                        overrideMaterials[matIndex].Load() is not UMaterialInterface unrealMaterial) continue;
-
-                    model.Materials[matIndex].SwapMaterial(unrealMaterial);
-                }
-            }
-
-            if (forceShow)
-            {
-                foreach (var section in model.Sections)
-                {
-                    section.Show = true;
-                }
-            }
-            Options.Models[guid] = model;
-        }
-
-        if (actor.TryGetValue(out FPackageIndex treasureLight, "PointLight", "TreasureLight") &&
-            treasureLight.TryLoad(out var pl1) && pl1.Template.TryLoad(out var pl2))
-        {
-            Options.Lights.Add(new PointLight(guid, Options.Icons["pointlight"], pl1, pl2, transform));
-        }
-        if (actor.TryGetValue(out FPackageIndex spotLight, "SpotLight") &&
-            spotLight.TryLoad(out var sl1) && sl1.Template.TryLoad(out var sl2))
-        {
-            Options.Lights.Add(new SpotLight(guid, Options.Icons["spotlight"], sl1, sl2, transform));
-        }
+        // if (actor.TryGetValue(out FPackageIndex treasureLight, "PointLight", "TreasureLight") &&
+        //     treasureLight.TryLoad(out var pl1) && pl1.Template.TryLoad(out var pl2))
+        // {
+        //     Options.Lights.Add(new PointLight(guid, Options.Icons["pointlight"], pl1, pl2, transform));
+        // }
+        // if (actor.TryGetValue(out FPackageIndex spotLight, "SpotLight") &&
+        //     spotLight.TryLoad(out var sl1) && sl1.Template.TryLoad(out var sl2))
+        // {
+        //     Options.Lights.Add(new SpotLight(guid, Options.Icons["spotlight"], sl1, sl2, transform));
+        // }
     }
 
     private Transform CalculateTransform(IPropertyHolder staticMeshComp, Transform relation)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CUE4Parse.UE4.Objects.Core.Misc;
 using OpenTK.Graphics.OpenGL4;
 using System.Numerics;
@@ -54,20 +55,18 @@ public class PickingTexture : IDisposable
         Bind(0);
     }
 
-    public void Render(Matrix4x4 viewMatrix, Matrix4x4 projMatrix, IDictionary<FGuid, UModel> models)
+    public void Render(Matrix4x4 viewMatrix, Matrix4x4 projMatrix)
     {
         Bind();
         GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
         _shader.Render(viewMatrix, projMatrix);
-        foreach ((var guid, var model) in models)
+        foreach (var model in AssetPool.Get().Models.Values.Where(model => model.IsVisible))
         {
-            _shader.SetUniform("uA", guid.A);
-            _shader.SetUniform("uB", guid.B);
-            _shader.SetUniform("uC", guid.C);
-            _shader.SetUniform("uD", guid.D);
-
-            if (!model.IsVisible) continue;
+            _shader.SetUniform("uA", model.Guid.A);
+            _shader.SetUniform("uB", model.Guid.B);
+            _shader.SetUniform("uC", model.Guid.C);
+            _shader.SetUniform("uD", model.Guid.D);
             model.PickingRender(_shader);
         }
 

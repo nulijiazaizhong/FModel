@@ -88,9 +88,9 @@ public class SplineModel : StaticModel
         _splineParams.Add(new GpuParams(splineMesh));
     }
 
-    public override void Setup(Options options)
+    public override void Setup()
     {
-        base.Setup(options);
+        base.Setup();
 
         _ssbo = new BufferObject<GpuParams>(_splineParams.ToArray(), BufferTarget.ShaderStorageBuffer);
     }
