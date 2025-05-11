@@ -87,23 +87,18 @@ public abstract class UModel : IRenderableModel
         UvCount = 1;
 
         Box = new FBox(new FVector(-2f), new FVector(2f));
-        Sockets = new List<Socket>();
-        Collisions = new List<Collision>();
-        Transforms = new List<Transform>();
+        Sockets = [];
+        Collisions = [];
+        Transforms = [];
     }
 
-    protected UModel(UObject export)
+    protected UModel(UObject export) : this()
     {
         _export = export;
         Path = _export.GetPathName();
         Name = Path.SubstringAfterLast('/').SubstringBefore('.');
         Type = export.ExportType;
-        UvCount = 1;
 
-        Box = new FBox(new FVector(-2f), new FVector(2f));
-        Sockets = new List<Socket>();
-        Collisions = new List<Collision>();
-        Transforms = new List<Transform>();
         Attachments = new Attachment(Name);
 
         _vertexAttributes[(int) EAttribute.Index].Enabled =
@@ -180,10 +175,19 @@ public abstract class UModel : IRenderableModel
         {
             var section = lod.Sections.Value[s];
             Sections[s] = new Section(section.MaterialIndex, section.NumFaces * 3, section.FirstIndex);
-            if (section.IsValid) Sections[s].ValidateMaterial(Materials[section.MaterialIndex], UvCount);
+            if (section.IsValid) Sections[s].ValidateSection(Materials[section.MaterialIndex]);
         }
 
         AddInstance(transform ?? Transform.Identity);
+    }
+
+    public void ScanMaterials()
+    {
+        foreach (var material in Materials)
+        {
+            if (!material.IsUsed) continue;
+            material.Validate(UvCount);
+        }
     }
 
     public virtual void Setup()
@@ -207,8 +211,6 @@ public abstract class UModel : IRenderableModel
 
             offset += attribute.Size;
         }
-
-        SetupInstances(); // instanced models transform
 
         // setup all used materials for use in different UV channels
         for (var i = 0; i < Materials.Length; i++)
@@ -335,14 +337,16 @@ public abstract class UModel : IRenderableModel
         shader.SetUniform("uScaleDown", Constants.SCALE_DOWN_RATIO);
     }
 
+    public void AddInstance(Transform transform)
+    {
+        SelectedInstance = TransformsCount;
+        Transforms.Add(transform);
+    }
+
     public void Update()
     {
-        MatrixVbo.Bind();
-        for (int instance = 0; instance < TransformsCount; instance++)
-        {
-            MatrixVbo.Update(instance, Transforms[instance].Matrix);
-        }
-        MatrixVbo.Unbind();
+        if (MatrixVbo?.Size != TransformsCount) SetupInstances();
+        else UpdateInstances();
 
         var worldMatrix = GetTransform().Matrix;
         foreach (var socket in Sockets)
@@ -365,21 +369,29 @@ public abstract class UModel : IRenderableModel
         }
     }
 
-    public void AddInstance(Transform transform)
+    private void UpdateInstances()
     {
-        SelectedInstance = TransformsCount;
-        Transforms.Add(transform);
+        MatrixVbo.Bind();
+        for (int instance = 0; instance < TransformsCount; instance++)
+        {
+            MatrixVbo.Update(instance, Transforms[instance].Matrix);
+        }
+        MatrixVbo.Unbind();
     }
 
-    public void SetupInstances()
+    private void SetupInstances()
     {
+        Vao.Bind();
+        Vbo.Bind();
+        Ebo.Bind();
+
         MatrixVbo = new BufferObject<Matrix4x4>(TransformsCount, BufferTarget.ArrayBuffer);
         for (int instance = 0; instance < TransformsCount; instance++)
         {
             Transforms[instance].Save();
             MatrixVbo.Update(instance, Transforms[instance].Matrix);
         }
-        Vao.BindInstancing(); // VertexAttributePointer
+        Vao.BindInstancing();
     }
 
     public Transform GetTransform() => Transforms[SelectedInstance];

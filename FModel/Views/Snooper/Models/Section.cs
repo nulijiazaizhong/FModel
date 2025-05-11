@@ -23,11 +23,9 @@ public class Section
         Color = Constants.COLOR_PALETTE[MaterialIndex % Constants.PALETTE_LENGTH];
     }
 
-    public void ValidateMaterial(Material material, int uvCount)
+    public void ValidateSection(Material material)
     {
         material.IsUsed = true;
         Show = !material.Parameters.IsNull && !material.Parameters.IsTranslucent;
-
-        material.Validate(uvCount);
     }
 }

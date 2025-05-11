@@ -193,7 +193,7 @@ public class Renderer : IDisposable
                 }
                 case USkeletalMesh sk:
                 {
-                    guid = Guid.NewGuid();
+                    guid = FGuid.Random();
                     if (!Options.Models.ContainsKey(guid) && sk.TryConvert(out var mesh))
                     {
                         addedModel = new SkeletalModel(sk, mesh, t);

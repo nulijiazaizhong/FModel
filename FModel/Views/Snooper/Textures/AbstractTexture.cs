@@ -26,7 +26,7 @@ public abstract class AbstractTexture : ITexture
             _ => TextureTarget.Texture2D
         };
 
-        Guid = new FGuid();
+        Guid = FGuid.Random();
     }
 
     public virtual void Setup()
