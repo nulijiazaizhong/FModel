@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
                     xmlns:settings="clr-namespace:FModel.Settings"
+                    xmlns:properties="clr-namespace:FModel.Properties"
                     xmlns:converters="clr-namespace:FModel.Views.Resources.Converters">
     <ContextMenu x:Key="FileContextMenu" x:Shared="False"
                  DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Window}}">
@@ -46,7 +47,7 @@
                 </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
-        <MenuItem Header="Find References" Command="{Binding RightClickMenuCommand}">
+        <MenuItem Header="{x:Static properties:Strings.Dialog_FindReferences}" Command="{Binding RightClickMenuCommand}">
             <MenuItem.CommandParameter>
                 <MultiBinding Converter="{x:Static converters:MultiParameterConverter.Instance}">
                     <Binding Source="Assets_Show_References" />
@@ -132,7 +133,7 @@
                 </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
-        <MenuItem Header="Save Properties (.json)" Command="{Binding RightClickMenuCommand}">
+        <MenuItem Header="{x:Static properties:Strings.Dialog_SaveProperties}" Command="{Binding RightClickMenuCommand}">
             <MenuItem.CommandParameter>
                 <MultiBinding Converter="{x:Static converters:MultiParameterConverter.Instance}">
                     <Binding Source="Save_Properties" />
@@ -147,7 +148,7 @@
                 </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
-        <MenuItem Header="Save Texture" Command="{Binding RightClickMenuCommand}">
+        <MenuItem Header="{x:Static properties:Strings.Dialog_SaveTexture}" Command="{Binding RightClickMenuCommand}">
             <MenuItem.CommandParameter>
                 <MultiBinding Converter="{x:Static converters:MultiParameterConverter.Instance}">
                     <Binding Source="Save_Textures" />
@@ -173,7 +174,7 @@
                 </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
-        <MenuItem Header="Save Model" Command="{Binding RightClickMenuCommand}">
+        <MenuItem Header="{x:Static properties:Strings.Dialog_SaveModel}" Command="{Binding RightClickMenuCommand}">
             <MenuItem.CommandParameter>
                 <MultiBinding Converter="{x:Static converters:MultiParameterConverter.Instance}">
                     <Binding Source="Save_Models" />
@@ -199,7 +200,7 @@
                 </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
-        <MenuItem Header="Save Animation" Command="{Binding RightClickMenuCommand}">
+        <MenuItem Header="{x:Static properties:Strings.Dialog_SaveAnimation}" Command="{Binding RightClickMenuCommand}">
             <MenuItem.CommandParameter>
                 <MultiBinding Converter="{x:Static converters:MultiParameterConverter.Instance}">
                     <Binding Source="Save_Animations" />
@@ -225,7 +226,7 @@
                 </Viewbox>
             </MenuItem.Icon>
         </MenuItem>
-        <MenuItem Header="Save Audio" Command="{Binding RightClickMenuCommand}">
+        <MenuItem Header="{x:Static properties:Strings.Dialog_SaveAudio}" Command="{Binding RightClickMenuCommand}">
             <MenuItem.CommandParameter>
                 <MultiBinding Converter="{x:Static converters:MultiParameterConverter.Instance}">
                     <Binding Source="Save_Audio" />
@@ -252,7 +253,7 @@
             </MenuItem.Icon>
         </MenuItem>
         <Separator />
-        <MenuItem Header="Copy">
+        <MenuItem Header="{x:Static properties:Strings.Dialog_Copy}">
             <MenuItem.Icon>
                 <Viewbox Width="16" Height="16">
                     <Canvas Width="24" Height="24">
@@ -260,7 +261,7 @@
                     </Canvas>
                 </Viewbox>
             </MenuItem.Icon>
-            <MenuItem Header="Package Path" Command="{Binding CopyCommand}">
+            <MenuItem Header="{x:Static properties:Strings.Dialog_CopyPackagePath}" Command="{Binding CopyCommand}">
                 <MenuItem.CommandParameter>
                     <MultiBinding Converter="{x:Static converters:MultiParameterConverter.Instance}">
                         <Binding Source="File_Path" />

@@ -3,6 +3,8 @@ name: FModel QA Builder
 on:
   push:
     branches: [ dev ]
+  delete:
+    branches: [ qa-* ]
 
 jobs:
   build:
@@ -13,6 +15,16 @@ jobs:
         uses: actions/checkout@v6
         with:
           submodules: 'recursive'
+          fetch-depth: 0
+
+      - name: Get Commit Info
+        id: commit_info
+        run: |
+          echo "short_sha=${{ github.sha }}" >> $GITHUB_OUTPUT
+          echo "short_sha=${GITHUB_SHA:0:7}" >> $GITHUB_OUTPUT
+          echo "message=$(git log -1 --pretty=%B | head -1 | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9 ]//g' | sed 's/  */-/g' | head -c50)" >> $GITHUB_OUTPUT
+          echo "author=$(git log -1 --pretty=%an)" >> $GITHUB_OUTPUT
+          echo "date=$(git log -1 --pretty=%ci | cut -d' ' -f1)" >> $GITHUB_OUTPUT
 
       - name: .NET 8 Setup
         uses: actions/setup-dotnet@v5
@@ -29,19 +41,30 @@ jobs:
         uses: thedoctor0/zip-release@0.7.6
         with:
           type: zip
-          filename: ${{ github.sha }}.zip # will end up in working directory not the Publish folder
+          filename: FModel-${{ steps.commit_info.outputs.short_sha }}.zip
           path: ./FModel/bin/Publish/FModel.exe
 
       - name: Edit QA Artifact
         uses: ncipollo/release-action@v1.20.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          name: 'FModel QA Testing'
-          body: 'Dev builds'
-          tag: 'qa'
-          artifacts: ${{ github.sha }}.zip
+          name: 'FModel QA ${{ steps.commit_info.outputs.short_sha }} - ${{ steps.commit_info.outputs.message }}'
+          body: |
+            ## Build Info
+            - **Commit**: `${{ github.sha }}`
+            - **Author**: ${{ steps.commit_info.outputs.author }}
+            - **Date**: ${{ steps.commit_info.outputs.date }}
+            - **Message**: ${{ github.event.head_commit.message }}
+
+            ## Changes
+            ```
+            ${{ github.event.head_commit.message }}
+            ```
+          tag: 'qa-${{ steps.commit_info.outputs.short_sha }}'
+          artifacts: FModel-${{ steps.commit_info.outputs.short_sha }}.zip
           prerelease: true
           allowUpdates: true
+          replacesArtifacts: true
 
       # - name: Get Version
       #   id: package_version

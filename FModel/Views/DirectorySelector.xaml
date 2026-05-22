@@ -6,13 +6,14 @@
         xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
         xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
         xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
+        xmlns:properties="clr-namespace:FModel.Properties"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize" IconVisibility="Collapsed" SizeToContent="Height"
         MinHeight="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenHeight}, Converter={converters:RatioConverter}, ConverterParameter='0.20'}"
         Width="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenWidth}, Converter={converters:RatioConverter}, ConverterParameter='0.25'}"
         AllowDrop="True">
     <adonisControls:AdonisWindow.Style>
         <Style TargetType="adonisControls:AdonisWindow" BasedOn="{StaticResource {x:Type adonisControls:AdonisWindow}}" >
-            <Setter Property="Title" Value="Directory Selector" />
+            <Setter Property="Title" Value="{x:Static properties:Strings.Menu_Selector}" />
         </Style>
     </adonisControls:AdonisWindow.Style>
     <Grid>
@@ -45,7 +46,7 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Detected Game" VerticalAlignment="Center" Margin="0 0 0 5" />
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{x:Static properties:Strings.DirSel_DetectedGame}" VerticalAlignment="Center" Margin="0 0 0 5" />
                     <controls:FilterableComboBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3"
                                                  ItemsSource="{Binding DetectedDirectories}" Margin="0 0 0 5"
                                                  Style="{StaticResource UComboBox}"
@@ -58,7 +59,7 @@
                         </ComboBox.ItemTemplate>
                     </controls:FilterableComboBox>
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="UE Versions" VerticalAlignment="Center" Margin="0 0 0 5" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{x:Static properties:Strings.DirSel_UEVersions}" VerticalAlignment="Center" Margin="0 0 0 5" />
                     <controls:FilterableComboBox Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" Margin="0 0 0 5"
                                                  ItemsSource="{Binding UeGames}"
                                                  Style="{StaticResource UComboBox}"
@@ -70,7 +71,7 @@
                         </ComboBox.ItemTemplate>
                     </controls:FilterableComboBox>
 
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Directory" VerticalAlignment="Center" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{x:Static properties:Strings.DirSel_Directory}" VerticalAlignment="Center" />
                     <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SelectedDirectory.GameDirectory, Mode=TwoWay}" />
                     <Button Grid.Row="2" Grid.Column="4" Content="..." HorizontalAlignment="Right" Click="OnBrowseDirectories" />
                     <Button Grid.Row="2" Grid.Column="4" Style="{DynamicResource {x:Static adonisUi:Styles.AccentButton}}" Padding="0"
@@ -106,10 +107,10 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Name" VerticalAlignment="Center" />
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{x:Static properties:Strings.DirSel_Name}" VerticalAlignment="Center" />
                         <TextBox x:Name="HelloMyNameIsGame" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="5" />
 
-                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Directory" VerticalAlignment="Center" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="{x:Static properties:Strings.DirSel_Directory}" VerticalAlignment="Center" />
                         <TextBox x:Name="HelloGameMyNameIsDirectory" Grid.Row="2" Grid.Column="2" />
                         <Button x:Name="OkGuysButWhoFuckingAsked" Grid.Row="2" Grid.Column="4" Content="..." HorizontalAlignment="Right" Click="OnBrowseManualDirectories" />
                         <Button Grid.Row="2" Grid.Column="6" Style="{DynamicResource {x:Static adonisUi:Styles.AccentButton}}" Padding="0"

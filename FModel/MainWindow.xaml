@@ -10,6 +10,7 @@
         xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
         xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
         xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
+        xmlns:properties="clr-namespace:FModel.Properties"
         WindowStartupLocation="CenterScreen" Closing="OnClosing" Loaded="OnLoaded" PreviewKeyDown="OnWindowKeyDown"
         Height="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenHeight}, Converter={converters:RatioConverter}, ConverterParameter='0.95'}"
         Width="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenWidth}, Converter={converters:RatioConverter}, ConverterParameter='0.90'}"
@@ -96,7 +97,7 @@
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="Packages">
-                    <MenuItem Header="Search" IsEnabled="{Binding Status.IsReady}" InputGestureText="Ctrl+Shift+F" Click="OnSearchViewClick">
+                    <MenuItem Header="{x:Static properties:Strings.Menu_Search}" IsEnabled="{Binding Status.IsReady}" InputGestureText="Ctrl+Shift+F" Click="OnSearchViewClick">
                         <MenuItem.Icon>
                             <Viewbox Width="16" Height="16">
                                 <Canvas Width="24" Height="24">
@@ -105,7 +106,7 @@
                             </Viewbox>
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Header="References" IsEnabled="{Binding Status.IsReady}" InputGestureText="Ctrl+Shift+R" Click="OnRefViewClick">
+                    <MenuItem Header="{x:Static properties:Strings.Menu_References}" IsEnabled="{Binding Status.IsReady}" InputGestureText="Ctrl+Shift+R" Click="OnRefViewClick">
                         <MenuItem.Icon>
                             <Viewbox Width="16" Height="16">
                                 <Canvas Width="24" Height="24">
@@ -209,7 +210,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0" Text="Preview New Explorer System" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="0" Text="{x:Static properties:Strings.Status_PreviewNewExplorerSystem}" VerticalAlignment="Center" />
                 <CheckBox Grid.Column="1" Margin="5 2 5 0" Unchecked="FeaturePreviewOnUnchecked" KeyboardNavigation.TabNavigation="None" KeyboardNavigation.ControlTabNavigation="None"
                           IsChecked="{Binding FeaturePreviewNewAssetExplorer, Source={x:Static local:Settings.UserSettings.Default}, Mode=TwoWay}"
                           Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}"/>
@@ -240,7 +241,7 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Loading Mode" VerticalAlignment="Center" />
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{x:Static properties:Strings.LoadingMode}" VerticalAlignment="Center" />
                                 <ComboBox Grid.Row="0" Grid.Column="2" ItemsSource="{Binding LoadingModes.Modes}" IsEnabled="{Binding Status.IsReady}"
                                           SelectedItem="{Binding LoadingMode, Source={x:Static settings:UserSettings.Default}, Mode=TwoWay}">
                                     <ComboBox.ItemTemplate>
@@ -278,13 +279,13 @@
                                         </Grid.ColumnDefinitions>
 
                                         <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding SelectedItem.MountPoint, ElementName=DirectoryFilesListBox, FallbackValue='/', Converter={x:Static converters:TrimRightToLeftConverter.Instance}, ConverterParameter=275}" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Mount Point" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{x:Static properties:Strings.MountPoint}" VerticalAlignment="Center" HorizontalAlignment="Right" />
                                         <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding SelectedItem.FileCount, ElementName=DirectoryFilesListBox, FallbackValue='0', StringFormat={}{0} Files}" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="File Count" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{x:Static properties:Strings.FileCount}" VerticalAlignment="Center" HorizontalAlignment="Right" />
                                         <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding SelectedItem.IsEncrypted, ElementName=DirectoryFilesListBox, FallbackValue='False'}" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                                        <TextBlock Grid.Row="2" Grid.Column="1" Text="Is Encrypted" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{x:Static properties:Strings.IsEncrypted}" VerticalAlignment="Center" HorizontalAlignment="Right" />
                                         <TextBlock Grid.Row="3" Grid.Column="0" Text="{Binding SelectedItem.Guid, ElementName=DirectoryFilesListBox, FallbackValue='00000000000000000000000000000000'}" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                                        <TextBlock Grid.Row="3" Grid.Column="1" Text="Global Unique Identifier" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{x:Static properties:Strings.GlobalUniqueIdentifier}" VerticalAlignment="Center" HorizontalAlignment="Right" />
                                     </Grid>
                                 </StackPanel>
                             </Grid>
@@ -372,15 +373,15 @@
                                     </Grid.ColumnDefinitions>
 
                                     <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding SelectedItem.AssetsList.Assets.Count, ElementName=AssetsFolderName, FallbackValue=0}" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="Packages Count" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{x:Static properties:Strings.PackagesCount}" VerticalAlignment="Center" HorizontalAlignment="Right" />
                                     <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding SelectedItem.FoldersView.Count, ElementName=AssetsFolderName, FallbackValue=0}" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="Folders Count" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{x:Static properties:Strings.FoldersCount}" VerticalAlignment="Center" HorizontalAlignment="Right" />
                                     <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding SelectedItem.Archive, ElementName=AssetsFolderName, FallbackValue='None'}" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="Included In Archive" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{x:Static properties:Strings.IncludedInArchive}" VerticalAlignment="Center" HorizontalAlignment="Right" />
                                     <TextBlock Grid.Row="3" Grid.Column="0" Text="{Binding SelectedItem.MountPoint, ElementName=AssetsFolderName, FallbackValue='/', Converter={x:Static converters:TrimRightToLeftConverter.Instance}, ConverterParameter=275}" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                                    <TextBlock Grid.Row="3" Grid.Column="1" Text="Archive Mount Point" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{x:Static properties:Strings.ArchiveMountPoint}" VerticalAlignment="Center" HorizontalAlignment="Right" />
                                     <TextBlock Grid.Row="4" Grid.Column="0" Text="{Binding SelectedItem.Version, ElementName=AssetsFolderName, FallbackValue='VER_UE4_LATEST', Converter={x:Static converters:TrimRightToLeftConverter.Instance}, ConverterParameter=275}" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                                    <TextBlock Grid.Row="4" Grid.Column="1" Text="Archive Version" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                                    <TextBlock Grid.Row="4" Grid.Column="1" Text="{x:Static properties:Strings.ArchiveVersion}" VerticalAlignment="Center" HorizontalAlignment="Right" />
                                 </Grid>
                             </StackPanel>
                         </Grid>
@@ -427,11 +428,11 @@
                                         </Grid.ColumnDefinitions>
 
                                         <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding SelectedItem.Asset.Offset, ElementName=AssetsListName, FallbackValue=0, StringFormat='{}0x{0:X}'}" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Offset" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{x:Static properties:Strings.Offset}" VerticalAlignment="Center" HorizontalAlignment="Right" />
                                         <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding SelectedItem.Asset.Size, ElementName=AssetsListName, FallbackValue=0, Converter={x:Static converters:SizeToStringConverter.Instance}}" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="Size" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{x:Static properties:Strings.Size}" VerticalAlignment="Center" HorizontalAlignment="Right" />
                                         <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding SelectedItem.Asset.CompressionMethod, ElementName=AssetsListName, FallbackValue='Unknown'}" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                                        <TextBlock Grid.Row="2" Grid.Column="1" Text="Compression Method" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{x:Static properties:Strings.CompressionMethod}" VerticalAlignment="Center" HorizontalAlignment="Right" />
                                         <TextBlock Grid.Row="3" Grid.Column="0" Text="{Binding SelectedItem.Asset.IsEncrypted, ElementName=AssetsListName, FallbackValue='False'}" VerticalAlignment="Center" HorizontalAlignment="Left" />
                                         <TextBlock Grid.Row="3" Grid.Column="1" Text="Is Encrypted" VerticalAlignment="Center" HorizontalAlignment="Right" />
                                         <TextBlock Grid.Row="4" Grid.Column="0" Text="{Binding SelectedItem.Asset.Vfs.Name, ElementName=AssetsListName, FallbackValue='None'}" VerticalAlignment="Center" HorizontalAlignment="Left" />
@@ -709,7 +710,7 @@
                     </StatusBarItem>
 
                     <StatusBarItem Margin="10 0 0 0">
-                        <TextBlock Text="{Binding LastUpdateCheck, Source={x:Static local:Settings.UserSettings.Default}, Converter={x:Static converters:RelativeDateTimeConverter.Instance}, StringFormat=Last Refresh: {0}}" />
+                        <TextBlock Text="{Binding LastUpdateCheck, Source={x:Static local:Settings.UserSettings.Default}, Converter={x:Static converters:RelativeDateTimeConverter.Instance}, StringFormat={}{0}}" />
                     </StatusBarItem>
                 </StackPanel>
             </StatusBarItem>
