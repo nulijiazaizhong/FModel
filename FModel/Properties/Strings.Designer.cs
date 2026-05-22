@@ -10,19 +10,20 @@
 
 namespace FModel.Properties {
     using System;
+    using System.Globalization;
+    using System.Resources;
 
 
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Strings {
+    public partial class Strings {
 
-        private static global::System.Resources.ResourceManager resourceMan;
-
-        private static global::System.Globalization.CultureInfo resourceCulture;
+        private static ResourceManager resourceMan;
+        private static CultureInfo resourceCulture;
 
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal Strings() {
@@ -32,10 +33,10 @@ namespace FModel.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        public static ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FModel.Properties.Strings", typeof(Strings).Assembly);
+                    ResourceManager temp = new ResourceManager("FModel.Properties.Strings", typeof(Strings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -47,28 +48,221 @@ namespace FModel.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
-            get {
-                return resourceCulture;
-            }
-            set {
-                resourceCulture = value;
-            }
+        public static CultureInfo Culture {
+            get => resourceCulture;
+            set => resourceCulture = value;
         }
 
-        /// <summary>
-        ///   Looks up a localized string from the resource file.
-        /// </summary>
-        public static string GetString(string name) {
-            return ResourceManager.GetString(name, resourceCulture);
+        private static string GetString(string name) {
+            return ResourceManager.GetString(name, resourceCulture) ?? name;
         }
 
-        /// <summary>
-        ///   Looks up a localized string from the resource file, or returns the defaultValue if not found.
-        /// </summary>
-        public static string GetString(string name, string defaultValue) {
-            string s = ResourceManager.GetString(name, resourceCulture);
-            return s ?? defaultValue;
-        }
+        public static string Menu_Directory => GetString("Menu_Directory");
+        public static string Menu_Selector => GetString("Menu_Selector");
+        public static string Menu_AES => GetString("Menu_AES");
+        public static string Menu_Backup => GetString("Menu_Backup");
+        public static string Menu_ArchivesInfo => GetString("Menu_ArchivesInfo");
+        public static string Menu_Packages => GetString("Menu_Packages");
+        public static string Menu_Search => GetString("Menu_Search");
+        public static string Menu_References => GetString("Menu_References");
+        public static string Menu_FavoriteDirectories => GetString("Menu_FavoriteDirectories");
+        public static string Menu_Views => GetString("Menu_Views");
+        public static string Menu_3DViewer => GetString("Menu_3DViewer");
+        public static string Menu_AudioPlayer => GetString("Menu_AudioPlayer");
+        public static string Menu_ImageMerger => GetString("Menu_ImageMerger");
+        public static string Menu_Settings => GetString("Menu_Settings");
+        public static string Menu_Help => GetString("Menu_Help");
+        public static string Menu_Donate => GetString("Menu_Donate");
+        public static string Menu_Releases => GetString("Menu_Releases");
+        public static string Menu_BugsReport => GetString("Menu_BugsReport");
+        public static string Menu_DiscordServer => GetString("Menu_DiscordServer");
+        public static string Menu_AboutFModel => GetString("Menu_AboutFModel");
+
+        public static string Tab_Archives => GetString("Tab_Archives");
+        public static string Tab_Folders => GetString("Tab_Folders");
+        public static string LoadingMode => GetString("LoadingMode");
+        public static string Load => GetString("Load");
+        public static string MountPoint => GetString("MountPoint");
+        public static string FileCount => GetString("FileCount");
+        public static string IsEncrypted => GetString("IsEncrypted");
+        public static string GlobalUniqueIdentifier => GetString("GlobalUniqueIdentifier");
+        public static string PackagesCount => GetString("PackagesCount");
+        public static string FoldersCount => GetString("FoldersCount");
+        public static string IncludedInArchive => GetString("IncludedInArchive");
+        public static string ArchiveMountPoint => GetString("ArchiveMountPoint");
+        public static string ArchiveVersion => GetString("ArchiveVersion");
+        public static string Files => GetString("Files");
+        public static string Offset => GetString("Offset");
+        public static string Size => GetString("Size");
+        public static string CompressionMethod => GetString("CompressionMethod");
+
+        public static string Settings_Title => GetString("Settings_Title");
+        public static string Settings_General => GetString("Settings_General");
+        public static string Settings_Creator => GetString("Settings_Creator");
+        public static string Settings_Models => GetString("Settings_Models");
+        public static string Settings_Keybindings => GetString("Settings_Keybindings");
+        public static string Settings_unluac => GetString("Settings_unluac");
+        public static string Settings_UI_Language => GetString("Settings_UI_Language");
+        public static string Settings_Packages_Language => GetString("Settings_Packages_Language");
+        public static string Settings_OutputDirectory => GetString("Settings_OutputDirectory");
+        public static string Settings_ExportRawDataDirectory => GetString("Settings_ExportRawDataDirectory");
+        public static string Settings_SavePropertiesDirectory => GetString("Settings_SavePropertiesDirectory");
+        public static string Settings_SaveTextureDirectory => GetString("Settings_SaveTextureDirectory");
+        public static string Settings_SaveAudioDirectory => GetString("Settings_SaveAudioDirectory");
+        public static string Settings_DiscordRichPresence => GetString("Settings_DiscordRichPresence");
+        public static string Settings_ArchiveDirectory => GetString("Settings_ArchiveDirectory");
+        public static string Settings_UEVersions => GetString("Settings_UEVersions");
+        public static string Settings_TexturePlatform => GetString("Settings_TexturePlatform");
+        public static string Settings_CompressedAudio => GetString("Settings_CompressedAudio");
+        public static string Settings_KeepDirectoryStructure => GetString("Settings_KeepDirectoryStructure");
+        public static string Settings_LocalMappingFile => GetString("Settings_LocalMappingFile");
+        public static string Settings_MappingFilePath => GetString("Settings_MappingFilePath");
+        public static string Settings_GAME => GetString("Settings_GAME");
+        public static string Settings_ADVANCED => GetString("Settings_ADVANCED");
+        public static string Settings_VersioningConfiguration => GetString("Settings_VersioningConfiguration");
+        public static string Settings_CustomVersions => GetString("Settings_CustomVersions");
+        public static string Settings_Options => GetString("Settings_Options");
+        public static string Settings_MapStructTypes => GetString("Settings_MapStructTypes");
+        public static string Settings_AESReloadatLaunch => GetString("Settings_AESReloadatLaunch");
+        public static string Settings_EndpointConfiguration => GetString("Settings_EndpointConfiguration");
+        public static string Settings_AES => GetString("Settings_AES");
+        public static string Settings_Mapping => GetString("Settings_Mapping");
+        public static string Settings_SerializeScriptBytecode => GetString("Settings_SerializeScriptBytecode");
+        public static string Settings_SerializeInlinedShaderMaps => GetString("Settings_SerializeInlinedShaderMaps");
+        public static string Settings_DecompileBlueprinttoPseudoC => GetString("Settings_DecompileBlueprinttoPseudoC");
+        public static string Settings_DecompileLua => GetString("Settings_DecompileLua");
+        public static string Settings_ConvertAudioDuringExport => GetString("Settings_ConvertAudioDuringExport");
+        public static string Settings_CRIWAREDecryptionKey => GetString("Settings_CRIWAREDecryptionKey");
+        public static string Settings_MayRequireRestart => GetString("Settings_MayRequireRestart");
+
+        public static string Settings_ModelExportDirectory => GetString("Settings_ModelExportDirectory");
+        public static string Settings_MeshFormat => GetString("Settings_MeshFormat");
+        public static string Settings_SocketFormat => GetString("Settings_SocketFormat");
+        public static string Settings_CompressionFormat => GetString("Settings_CompressionFormat");
+        public static string Settings_LevelOfDetailFormat => GetString("Settings_LevelOfDetailFormat");
+        public static string Settings_PreviewMaxTextureSize => GetString("Settings_PreviewMaxTextureSize");
+        public static string Settings_PreviewStaticMeshes => GetString("Settings_PreviewStaticMeshes");
+        public static string Settings_PreviewSkeletalMeshes => GetString("Settings_PreviewSkeletalMeshes");
+        public static string Settings_PreviewAnimations => GetString("Settings_PreviewAnimations");
+        public static string Settings_PreviewMaterials => GetString("Settings_PreviewMaterials");
+        public static string Settings_PreviewLevels => GetString("Settings_PreviewLevels");
+        public static string Settings_SaveMaterialsEmbeddedwithinMeshes => GetString("Settings_SaveMaterialsEmbeddedwithinMeshes");
+        public static string Settings_SaveMorphTargetsinMeshes => GetString("Settings_SaveMorphTargetsinMeshes");
+        public static string Settings_HandleSkeletonsasEmptyMeshes => GetString("Settings_HandleSkeletonsasEmptyMeshes");
+        public static string Settings_NaniteFormat => GetString("Settings_NaniteFormat");
+        public static string Settings_MaterialFormat => GetString("Settings_MaterialFormat");
+        public static string Settings_TextureFormat => GetString("Settings_TextureFormat");
+        public static string Settings_SaveHDRTexturesasRadiance => GetString("Settings_SaveHDRTexturesasRadiance");
+
+        public static string Settings_CosmeticStyle => GetString("Settings_CosmeticStyle");
+        public static string Settings_CosmeticShopIcon => GetString("Settings_CosmeticShopIcon");
+
+        public static string Settings_LeftSwitchonDirectoryTab => GetString("Settings_LeftSwitchonDirectoryTab");
+        public static string Settings_RightSwitchonDirectoryTab => GetString("Settings_RightSwitchonDirectoryTab");
+        public static string Settings_SwitchAssetExplorer => GetString("Settings_SwitchAssetExplorer");
+        public static string Settings_LeftSwitchonAssetTab => GetString("Settings_LeftSwitchonAssetTab");
+        public static string Settings_RightSwitchonAssetTab => GetString("Settings_RightSwitchonAssetTab");
+        public static string Settings_AddAssetTab => GetString("Settings_AddAssetTab");
+        public static string Settings_RemoveSelectedAssetTab => GetString("Settings_RemoveSelectedAssetTab");
+        public static string Settings_AddAudioFile => GetString("Settings_AddAudioFile");
+        public static string Settings_PlayPauseCurrentAudio => GetString("Settings_PlayPauseCurrentAudio");
+        public static string Settings_PreviousAudio => GetString("Settings_PreviousAudio");
+        public static string Settings_NextAudio => GetString("Settings_NextAudio");
+
+        public static string Settings_Mode => GetString("Settings_Mode");
+        public static string Settings_Decompile => GetString("Settings_Decompile");
+        public static string Settings_Disassemble => GetString("Settings_Disassemble");
+        public static string Settings_RawString => GetString("Settings_RawString");
+        public static string Settings_NoDebug => GetString("Settings_NoDebug");
+        public static string Settings_Luaj => GetString("Settings_Luaj");
+        public static string Settings_OpcodeMap => GetString("Settings_OpcodeMap");
+
+        public static string Dialog_OK => GetString("Dialog_OK");
+        public static string Dialog_Cancel => GetString("Dialog_Cancel");
+        public static string Dialog_Add => GetString("Dialog_Add");
+        public static string Dialog_Remove => GetString("Dialog_Remove");
+        public static string Dialog_Save => GetString("Dialog_Save");
+        public static string Dialog_Delete => GetString("Dialog_Delete");
+        public static string Dialog_Clear => GetString("Dialog_Clear");
+        public static string Dialog_Download => GetString("Dialog_Download");
+        public static string Dialog_Refresh => GetString("Dialog_Refresh");
+        public static string Dialog_Close => GetString("Dialog_Close");
+        public static string Dialog_CloseAllTabs => GetString("Dialog_CloseAllTabs");
+        public static string Dialog_CloseOtherTabs => GetString("Dialog_CloseOtherTabs");
+        public static string Dialog_ExportRawData => GetString("Dialog_ExportRawData");
+        public static string Dialog_SaveProperties => GetString("Dialog_SaveProperties");
+        public static string Dialog_SaveTexture => GetString("Dialog_SaveTexture");
+        public static string Dialog_SaveModel => GetString("Dialog_SaveModel");
+        public static string Dialog_SaveAnimation => GetString("Dialog_SaveAnimation");
+        public static string Dialog_SaveAudio => GetString("Dialog_SaveAudio");
+        public static string Dialog_OpenProperties => GetString("Dialog_OpenProperties");
+        public static string Dialog_JumptoPackageFolder => GetString("Dialog_JumptoPackageFolder");
+        public static string Dialog_CopyPackagePath => GetString("Dialog_CopyPackagePath");
+        public static string Dialog_FindReferences => GetString("Dialog_FindReferences");
+        public static string Dialog_OpenImage => GetString("Dialog_OpenImage");
+        public static string Dialog_Copy => GetString("Dialog_Copy");
+
+        public static string About_MadeWith => GetString("About_MadeWith");
+        public static string About_Description => GetString("About_Description");
+        public static string About_Contributors => GetString("About_Contributors");
+        public static string About_Donators => GetString("About_Donators");
+        public static string About_PoweredBy => GetString("About_PoweredBy");
+
+        public static string AES_Instruction => GetString("AES_Instruction");
+        public static string AES_KeyName => GetString("AES_KeyName");
+        public static string AES_Key => GetString("AES_Key");
+
+        public static string DirSel_Instruction => GetString("DirSel_Instruction");
+        public static string DirSel_DetectedGame => GetString("DirSel_DetectedGame");
+        public static string DirSel_UEVersions => GetString("DirSel_UEVersions");
+        public static string DirSel_Directory => GetString("DirSel_Directory");
+        public static string DirSel_DragDrop => GetString("DirSel_DragDrop");
+        public static string DirSel_Name => GetString("DirSel_Name");
+        public static string DirSel_DeleteGame => GetString("DirSel_DeleteGame");
+        public static string DirSel_AddGame => GetString("DirSel_AddGame");
+
+        public static string CustDir_WhatIsThis => GetString("CustDir_WhatIsThis");
+        public static string CustDir_Description => GetString("CustDir_Description");
+        public static string CustDir_Header => GetString("CustDir_Header");
+
+        public static string Backup_Description => GetString("Backup_Description");
+        public static string Backup_Create => GetString("Backup_Create");
+
+        public static string Audio_Devices => GetString("Audio_Devices");
+        public static string Audio_Volume => GetString("Audio_Volume");
+        public static string Audio_Encoding => GetString("Audio_Encoding");
+        public static string Audio_Length => GetString("Audio_Length");
+        public static string Audio_BytesPerSecond => GetString("Audio_BytesPerSecond");
+        public static string Audio_Play => GetString("Audio_Play");
+        public static string Audio_SavePlaylist => GetString("Audio_SavePlaylist");
+
+        public static string ImgMerger_ImagesPerRow => GetString("ImgMerger_ImagesPerRow");
+        public static string ImgMerger_MarginBetweenImages => GetString("ImgMerger_MarginBetweenImages");
+
+        public static string Search_ByPath => GetString("Search_ByPath");
+        public static string Search_MatchCase => GetString("Search_MatchCase");
+        public static string Search_Regex => GetString("Search_Regex");
+        public static string Search_SortFileSizes => GetString("Search_SortFileSizes");
+        public static string Search_ClearSearchFilter => GetString("Search_ClearSearchFilter");
+        public static string Search_Path => GetString("Search_Path");
+
+        public static string Status_PreviewNewExplorerSystem => GetString("Status_PreviewNewExplorerSystem");
+        public static string Status_LastRefresh => GetString("Status_LastRefresh");
+        public static string Status_NoFoldersFound => GetString("Status_NoFoldersFound");
+        public static string Status_NoArchivesFound => GetString("Status_NoArchivesFound");
+        public static string Status_NoAudioToPlay => GetString("Status_NoAudioToPlay");
+        public static string Status_OpenOutputFolder => GetString("Status_OpenOutputFolder");
+        public static string Status_ClearLogs => GetString("Status_ClearLogs");
+
+        public static string Tooltip_BringSelectedFolderToView => GetString("Tooltip_BringSelectedFolderToView");
+        public static string Tooltip_ExpandAll => GetString("Tooltip_ExpandAll");
+        public static string Tooltip_CollapseAll => GetString("Tooltip_CollapseAll");
+        public static string Tooltip_Previous => GetString("Tooltip_Previous");
+        public static string Tooltip_Next => GetString("Tooltip_Next");
+        public static string Tooltip_CloseTab => GetString("Tooltip_CloseTab");
+        public static string Tooltip_DisableAlphaChannel => GetString("Tooltip_DisableAlphaChannel");
+        public static string Tooltip_OpenImage => GetString("Tooltip_OpenImage");
+        public static string Tooltip_CopyImage => GetString("Tooltip_CopyImage");
+        public static string Tooltip_SaveImage => GetString("Tooltip_SaveImage");
     }
 }
