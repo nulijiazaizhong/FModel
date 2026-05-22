@@ -3,8 +3,7 @@ name: FModel QA Builder
 on:
   push:
     branches: [ dev ]
-  delete:
-    branches: [ qa-* ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -60,7 +59,7 @@ jobs:
             ```
             ${{ github.event.head_commit.message }}
             ```
-          tag: 'qa-${{ steps.commit_info.outputs.short_sha }}'
+          tag: 'v${{ steps.commit_info.outputs.short_sha }}'
           artifacts: FModel-${{ steps.commit_info.outputs.short_sha }}.zip
           prerelease: true
           allowUpdates: true
