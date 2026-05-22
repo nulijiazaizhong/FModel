@@ -83,6 +83,13 @@ public class SettingsViewModel : ViewModel
         set => SetProperty(ref _selectedAssetLanguage, value);
     }
 
+    private ELanguage _selectedUiLanguage;
+    public ELanguage SelectedUiLanguage
+    {
+        get => _selectedUiLanguage;
+        set => SetProperty(ref _selectedUiLanguage, value);
+    }
+
     private EAesReload _selectedAesReload;
     public EAesReload SelectedAesReload
     {
@@ -184,6 +191,7 @@ public class SettingsViewModel : ViewModel
 
     public ReadOnlyObservableCollection<EGame> UeGames { get; private set; }
     public ReadOnlyObservableCollection<ELanguage> AssetLanguages { get; private set; }
+    public ReadOnlyObservableCollection<ELanguage> UiLanguages { get; private set; }
     public ReadOnlyObservableCollection<EAesReload> AesReloads { get; private set; }
     public ReadOnlyObservableCollection<EDiscordRpc> DiscordRpcs { get; private set; }
     public ReadOnlyObservableCollection<ECompressedAudio> CompressedAudios { get; private set; }
@@ -211,6 +219,7 @@ public class SettingsViewModel : ViewModel
     private IDictionary<string, bool> _optionsSnapshot;
     private IDictionary<string, KeyValuePair<string, string>> _mapStructTypesSnapshot;
     private ELanguage _assetLanguageSnapshot;
+    private ELanguage _uiLanguageSnapshot;
     private ECompressedAudio _compressedAudioSnapshot;
     private EIconStyle _cosmeticStyleSnapshot;
     private EMeshFormat _meshExportFormatSnapshot;
@@ -255,6 +264,7 @@ public class SettingsViewModel : ViewModel
         };
 
         _assetLanguageSnapshot = UserSettings.Default.AssetLanguage;
+        _uiLanguageSnapshot = UserSettings.Default.UiLanguage;
         _compressedAudioSnapshot = UserSettings.Default.CompressedAudioMode;
         _cosmeticStyleSnapshot = UserSettings.Default.CosmeticStyle;
         _meshExportFormatSnapshot = UserSettings.Default.MeshExportFormat;
@@ -271,6 +281,7 @@ public class SettingsViewModel : ViewModel
         SelectedOptions = _optionsSnapshot;
         SelectedMapStructTypes = _mapStructTypesSnapshot;
         SelectedAssetLanguage = _assetLanguageSnapshot;
+        SelectedUiLanguage = _uiLanguageSnapshot;
         SelectedCompressedAudio = _compressedAudioSnapshot;
         SelectedCosmeticStyle = _cosmeticStyleSnapshot;
         SelectedMeshExportFormat = _meshExportFormatSnapshot;
@@ -287,6 +298,7 @@ public class SettingsViewModel : ViewModel
 
         UeGames = new ReadOnlyObservableCollection<EGame>(new ObservableCollection<EGame>(EnumerateUeGames()));
         AssetLanguages = new ReadOnlyObservableCollection<ELanguage>(new ObservableCollection<ELanguage>(EnumerateAssetLanguages()));
+        UiLanguages = new ReadOnlyObservableCollection<ELanguage>(new ObservableCollection<ELanguage>(EnumerateUiLanguages()));
         AesReloads = new ReadOnlyObservableCollection<EAesReload>(new ObservableCollection<EAesReload>(EnumerateAesReloads()));
         DiscordRpcs = new ReadOnlyObservableCollection<EDiscordRpc>(new ObservableCollection<EDiscordRpc>(EnumerateDiscordRpcs()));
         CompressedAudios = new ReadOnlyObservableCollection<ECompressedAudio>(new ObservableCollection<ECompressedAudio>(EnumerateCompressedAudios()));
@@ -308,6 +320,8 @@ public class SettingsViewModel : ViewModel
 
         if (_assetLanguageSnapshot != SelectedAssetLanguage)
             whatShouldIDo.Add(SettingsOut.ReloadLocres);
+        if (_uiLanguageSnapshot != SelectedUiLanguage)
+            restart = true;
         if (_mappingsUpdate)
             whatShouldIDo.Add(SettingsOut.ReloadMappings);
 
@@ -326,6 +340,7 @@ public class SettingsViewModel : ViewModel
         UserSettings.Default.CurrentDir.UnluacOpCodeMap = UnluacOpcodeMap;
 
         UserSettings.Default.AssetLanguage = SelectedAssetLanguage;
+        UserSettings.Default.UiLanguage = SelectedUiLanguage;
         UserSettings.Default.CompressedAudioMode = SelectedCompressedAudio;
         UserSettings.Default.CosmeticStyle = SelectedCosmeticStyle;
         UserSettings.Default.MeshExportFormat = SelectedMeshExportFormat;
@@ -350,6 +365,7 @@ public class SettingsViewModel : ViewModel
             .Select(group => group.First())
             .OrderBy(value => ((int)value & 0xFF) == 0);
     private IEnumerable<ELanguage> EnumerateAssetLanguages() => Enum.GetValues<ELanguage>();
+    private IEnumerable<ELanguage> EnumerateUiLanguages() => Enum.GetValues<ELanguage>();
     private IEnumerable<EAesReload> EnumerateAesReloads() => Enum.GetValues<EAesReload>();
     private IEnumerable<EDiscordRpc> EnumerateDiscordRpcs() => Enum.GetValues<EDiscordRpc>();
     private IEnumerable<ECompressedAudio> EnumerateCompressedAudios() => Enum.GetValues<ECompressedAudio>();

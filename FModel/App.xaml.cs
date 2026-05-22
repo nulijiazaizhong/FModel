@@ -5,10 +5,12 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using CUE4Parse;
 using FModel.Framework;
+using FModel.Properties;
 using FModel.Services;
 using FModel.Settings;
 using Newtonsoft.Json;
@@ -47,6 +49,9 @@ public partial class App
         {
             UserSettings.Default = new UserSettings();
         }
+
+        // Apply UI language setting
+        ApplyUiLanguage(UserSettings.Default.UiLanguage);
 
         var createMe = false;
         if (!Directory.Exists(UserSettings.Default.OutputDirectory))
@@ -193,5 +198,37 @@ public partial class App
         if (rk != null)
             return rk.GetValue(name, null) as string;
         return string.Empty;
+    }
+
+    private static void ApplyUiLanguage(ELanguage language)
+    {
+        var culture = language switch
+        {
+            ELanguage.Chinese => new CultureInfo("zh-CN"),
+            ELanguage.TraditionalChinese => new CultureInfo("zh-TW"),
+            ELanguage.Japanese => new CultureInfo("ja-JP"),
+            ELanguage.Korean => new CultureInfo("ko-KR"),
+            ELanguage.German => new CultureInfo("de-DE"),
+            ELanguage.French => new CultureInfo("fr-FR"),
+            ELanguage.Spanish => new CultureInfo("es-ES"),
+            ELanguage.SpanishLatin => new CultureInfo("es-MX"),
+            ELanguage.Portuguese => new CultureInfo("pt-PT"),
+            ELanguage.PortugueseBrazil => new CultureInfo("pt-BR"),
+            ELanguage.Italian => new CultureInfo("it-IT"),
+            ELanguage.Russian => new CultureInfo("ru-RU"),
+            ELanguage.Polish => new CultureInfo("pl-PL"),
+            ELanguage.Turkish => new CultureInfo("tr-TR"),
+            ELanguage.Arabic => new CultureInfo("ar-SA"),
+            ELanguage.Thai => new CultureInfo("th-TH"),
+            ELanguage.Swedish => new CultureInfo("sv-SE"),
+            ELanguage.Indonesian => new CultureInfo("id-ID"),
+            ELanguage.VietnameseVietnam => new CultureInfo("vi-VN"),
+            ELanguage.Zulu => new CultureInfo("zu-ZA"),
+            _ => new CultureInfo("en-US")
+        };
+
+        Thread.CurrentThread.CurrentCulture = culture;
+        Thread.CurrentThread.CurrentUICulture = culture;
+        Strings.Culture = culture;
     }
 }

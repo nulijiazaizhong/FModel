@@ -239,6 +239,13 @@ namespace FModel.Settings
             set => SetProperty(ref _assetLanguage, value);
         }
 
+        private ELanguage _uiLanguage = ELanguage.English;
+        public ELanguage UiLanguage
+        {
+            get => _uiLanguage;
+            set => SetProperty(ref _uiLanguage, value);
+        }
+
         private EIconStyle _cosmeticStyle = EIconStyle.Default;
         public EIconStyle CosmeticStyle
         {

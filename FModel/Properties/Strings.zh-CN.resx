@@ -1,0 +1,667 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- 主菜单 -->
+  <data name="Menu_Directory" xml:space="preserve">
+    <value>目录</value>
+  </data>
+  <data name="Menu_Selector" xml:space="preserve">
+    <value>选择器</value>
+  </data>
+  <data name="Menu_AES" xml:space="preserve">
+    <value>AES</value>
+  </data>
+  <data name="Menu_Backup" xml:space="preserve">
+    <value>备份</value>
+  </data>
+  <data name="Menu_ArchivesInfo" xml:space="preserve">
+    <value>档案信息</value>
+  </data>
+  <data name="Menu_Packages" xml:space="preserve">
+    <value>资源包</value>
+  </data>
+  <data name="Menu_Search" xml:space="preserve">
+    <value>搜索</value>
+  </data>
+  <data name="Menu_References" xml:space="preserve">
+    <value>引用</value>
+  </data>
+  <data name="Menu_FavoriteDirectories" xml:space="preserve">
+    <value>收藏目录</value>
+  </data>
+  <data name="Menu_Views" xml:space="preserve">
+    <value>视图</value>
+  </data>
+  <data name="Menu_3DViewer" xml:space="preserve">
+    <value>3D 查看器</value>
+  </data>
+  <data name="Menu_AudioPlayer" xml:space="preserve">
+    <value>音频播放器</value>
+  </data>
+  <data name="Menu_ImageMerger" xml:space="preserve">
+    <value>图片合并</value>
+  </data>
+  <data name="Menu_Settings" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="Menu_Help" xml:space="preserve">
+    <value>帮助</value>
+  </data>
+  <data name="Menu_Donate" xml:space="preserve">
+    <value>捐赠</value>
+  </data>
+  <data name="Menu_Releases" xml:space="preserve">
+    <value>发布</value>
+  </data>
+  <data name="Menu_BugsReport" xml:space="preserve">
+    <value>错误报告</value>
+  </data>
+  <data name="Menu_DiscordServer" xml:space="preserve">
+    <value>Discord 服务器</value>
+  </data>
+  <data name="Menu_AboutFModel" xml:space="preserve">
+    <value>关于 FModel</value>
+  </data>
+
+  <!-- 档案选项卡 -->
+  <data name="Tab_Archives" xml:space="preserve">
+    <value>档案</value>
+  </data>
+  <data name="Tab_Folders" xml:space="preserve">
+    <value>文件夹</value>
+  </data>
+  <data name="LoadingMode" xml:space="preserve">
+    <value>加载模式</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>加载</value>
+  </data>
+  <data name="MountPoint" xml:space="preserve">
+    <value>挂载点</value>
+  </data>
+  <data name="FileCount" xml:space="preserve">
+    <value>文件数量</value>
+  </data>
+  <data name="IsEncrypted" xml:space="preserve">
+    <value>已加密</value>
+  </data>
+  <data name="GlobalUniqueIdentifier" xml:space="preserve">
+    <value>全局唯一标识符</value>
+  </data>
+  <data name="PackagesCount" xml:space="preserve">
+    <value>资源包数量</value>
+  </data>
+  <data name="FoldersCount" xml:space="preserve">
+    <value>文件夹数量</value>
+  </data>
+  <data name="IncludedInArchive" xml:space="preserve">
+    <value>包含在档案中</value>
+  </data>
+  <data name="ArchiveMountPoint" xml:space="preserve">
+    <value>档案挂载点</value>
+  </data>
+  <data name="ArchiveVersion" xml:space="preserve">
+    <value>档案版本</value>
+  </data>
+  <data name="Files" xml:space="preserve">
+    <value>文件</value>
+  </data>
+  <data name="Offset" xml:space="preserve">
+    <value>偏移量</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>大小</value>
+  </data>
+  <data name="CompressionMethod" xml:space="preserve">
+    <value>压缩方法</value>
+  </data>
+
+  <!-- 常规设置 -->
+  <data name="Settings_Title" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="Settings_General" xml:space="preserve">
+    <value>常规</value>
+  </data>
+  <data name="Settings_Creator" xml:space="preserve">
+    <value>创作者</value>
+  </data>
+  <data name="Settings_Models" xml:space="preserve">
+    <value>模型</value>
+  </data>
+  <data name="Settings_Keybindings" xml:space="preserve">
+    <value>快捷键</value>
+  </data>
+  <data name="Settings_unluac" xml:space="preserve">
+    <value>unluac</value>
+  </data>
+  <data name="Settings_UI_Language" xml:space="preserve">
+    <value>界面语言</value>
+  </data>
+  <data name="Settings_Packages_Language" xml:space="preserve">
+    <value>资源包语言</value>
+  </data>
+  <data name="Settings_OutputDirectory" xml:space="preserve">
+    <value>输出目录 *</value>
+  </data>
+  <data name="Settings_ExportRawDataDirectory" xml:space="preserve">
+    <value>导出原始数据目录 *</value>
+  </data>
+  <data name="Settings_SavePropertiesDirectory" xml:space="preserve">
+    <value>保存属性目录 *</value>
+  </data>
+  <data name="Settings_SaveTextureDirectory" xml:space="preserve">
+    <value>保存纹理目录 *</value>
+  </data>
+  <data name="Settings_SaveAudioDirectory" xml:space="preserve">
+    <value>保存音频目录 *</value>
+  </data>
+  <data name="Settings_DiscordRichPresence" xml:space="preserve">
+    <value>Discord 状态</value>
+  </data>
+  <data name="Settings_ArchiveDirectory" xml:space="preserve">
+    <value>档案目录 *</value>
+  </data>
+  <data name="Settings_UEVersions" xml:space="preserve">
+    <value>UE 版本 *</value>
+  </data>
+  <data name="Settings_TexturePlatform" xml:space="preserve">
+    <value>纹理平台 *</value>
+  </data>
+  <data name="Settings_CompressedAudio" xml:space="preserve">
+    <value>压缩音频</value>
+  </data>
+  <data name="Settings_KeepDirectoryStructure" xml:space="preserve">
+    <value>保持目录结构</value>
+  </data>
+  <data name="Settings_LocalMappingFile" xml:space="preserve">
+    <value>本地映射文件 (拖放)</value>
+  </data>
+  <data name="Settings_MappingFilePath" xml:space="preserve">
+    <value>映射文件路径</value>
+  </data>
+  <data name="Settings_GAME" xml:space="preserve">
+    <value>游戏</value>
+  </data>
+  <data name="Settings_ADVANCED" xml:space="preserve">
+    <value>高级</value>
+  </data>
+  <data name="Settings_VersioningConfiguration" xml:space="preserve">
+    <value>版本配置 *</value>
+  </data>
+  <data name="Settings_CustomVersions" xml:space="preserve">
+    <value>自定义版本</value>
+  </data>
+  <data name="Settings_Options" xml:space="preserve">
+    <value>选项</value>
+  </data>
+  <data name="Settings_MapStructTypes" xml:space="preserve">
+    <value>MapStruct类型</value>
+  </data>
+  <data name="Settings_AESReloadatLaunch" xml:space="preserve">
+    <value>启动时重新加载 AES</value>
+  </data>
+  <data name="Settings_EndpointConfiguration" xml:space="preserve">
+    <value>端点配置</value>
+  </data>
+  <data name="Settings_AES" xml:space="preserve">
+    <value>AES</value>
+  </data>
+  <data name="Settings_Mapping" xml:space="preserve">
+    <value>映射</value>
+  </data>
+  <data name="Settings_SerializeScriptBytecode" xml:space="preserve">
+    <value>序列化脚本字节码</value>
+  </data>
+  <data name="Settings_SerializeInlinedShaderMaps" xml:space="preserve">
+    <value>序列化内联着色器贴图</value>
+  </data>
+  <data name="Settings_DecompileBlueprinttoPseudoC" xml:space="preserve">
+    <value>反编译 Blueprint 为伪 C++</value>
+  </data>
+  <data name="Settings_DecompileLua" xml:space="preserve">
+    <value>反编译 Lua</value>
+  </data>
+  <data name="Settings_ConvertAudioDuringExport" xml:space="preserve">
+    <value>导出时转换音频 (.wav)</value>
+  </data>
+  <data name="Settings_CRIWAREDecryptionKey" xml:space="preserve">
+    <value>CRIWARE 解密密钥</value>
+  </data>
+  <data name="Settings_MayRequireRestart" xml:space="preserve">
+    <value>* 可能需要重启才能使更改生效</value>
+  </data>
+
+  <!-- 模型设置 -->
+  <data name="Settings_ModelExportDirectory" xml:space="preserve">
+    <value>模型导出目录 *</value>
+  </data>
+  <data name="Settings_MeshFormat" xml:space="preserve">
+    <value>网格格式</value>
+  </data>
+  <data name="Settings_SocketFormat" xml:space="preserve">
+    <value>插槽格式 (ActorX)</value>
+  </data>
+  <data name="Settings_CompressionFormat" xml:space="preserve">
+    <value>压缩格式 (UEFormat)</value>
+  </data>
+  <data name="Settings_LevelOfDetailFormat" xml:space="preserve">
+    <value>细节等级格式</value>
+  </data>
+  <data name="Settings_PreviewMaxTextureSize" xml:space="preserve">
+    <value>预览最大纹理大小</value>
+  </data>
+  <data name="Settings_PreviewStaticMeshes" xml:space="preserve">
+    <value>预览静态网格</value>
+  </data>
+  <data name="Settings_PreviewSkeletalMeshes" xml:space="preserve">
+    <value>预览骨骼网格</value>
+  </data>
+  <data name="Settings_PreviewAnimations" xml:space="preserve">
+    <value>预览动画</value>
+  </data>
+  <data name="Settings_PreviewMaterials" xml:space="preserve">
+    <value>预览材质</value>
+  </data>
+  <data name="Settings_PreviewLevels" xml:space="preserve">
+    <value>预览关卡 (.umap)</value>
+  </data>
+  <data name="Settings_SaveMaterialsEmbeddedwithinMeshes" xml:space="preserve">
+    <value>将材质嵌入网格保存</value>
+  </data>
+  <data name="Settings_SaveMorphTargetsinMeshes" xml:space="preserve">
+    <value>在网格中保存变形目标</value>
+  </data>
+  <data name="Settings_HandleSkeletonsasEmptyMeshes" xml:space="preserve">
+    <value>将骨骼作为空网格处理</value>
+  </data>
+  <data name="Settings_NaniteFormat" xml:space="preserve">
+    <value>Nanite 格式</value>
+  </data>
+  <data name="Settings_MaterialFormat" xml:space="preserve">
+    <value>材质格式</value>
+  </data>
+  <data name="Settings_TextureFormat" xml:space="preserve">
+    <value>纹理格式</value>
+  </data>
+  <data name="Settings_SaveHDRTexturesasRadiance" xml:space="preserve">
+    <value>将 HDR 纹理保存为 Radiance .hdr</value>
+  </data>
+
+  <!-- 创作者设置 -->
+  <data name="Settings_CosmeticStyle" xml:space="preserve">
+    <value>外观样式</value>
+  </data>
+  <data name="Settings_CosmeticShopIcon" xml:space="preserve">
+    <value>商店图标</value>
+  </data>
+
+  <!-- 快捷键 -->
+  <data name="Settings_LeftSwitchonDirectoryTab" xml:space="preserve">
+    <value>目录选项卡向左切换</value>
+  </data>
+  <data name="Settings_RightSwitchonDirectoryTab" xml:space="preserve">
+    <value>目录选项卡向右切换</value>
+  </data>
+  <data name="Settings_SwitchAssetExplorer" xml:space="preserve">
+    <value>切换资源浏览器</value>
+  </data>
+  <data name="Settings_LeftSwitchonAssetTab" xml:space="preserve">
+    <value>资源选项卡向左切换</value>
+  </data>
+  <data name="Settings_RightSwitchonAssetTab" xml:space="preserve">
+    <value>资源选项卡向右切换</value>
+  </data>
+  <data name="Settings_AddAssetTab" xml:space="preserve">
+    <value>添加资源选项卡</value>
+  </data>
+  <data name="Settings_RemoveSelectedAssetTab" xml:space="preserve">
+    <value>移除选中的资源选项卡</value>
+  </data>
+  <data name="Settings_AddAudioFile" xml:space="preserve">
+    <value>添加音频文件</value>
+  </data>
+  <data name="Settings_PlayPauseCurrentAudio" xml:space="preserve">
+    <value>播放/暂停当前音频</value>
+  </data>
+  <data name="Settings_PreviousAudio" xml:space="preserve">
+    <value>上一个音频</value>
+  </data>
+  <data name="Settings_NextAudio" xml:space="preserve">
+    <value>下一个音频</value>
+  </data>
+
+  <!-- unluac 设置 -->
+  <data name="Settings_Mode" xml:space="preserve">
+    <value>模式</value>
+  </data>
+  <data name="Settings_Decompile" xml:space="preserve">
+    <value>反编译</value>
+  </data>
+  <data name="Settings_Disassemble" xml:space="preserve">
+    <value>反汇编</value>
+  </data>
+  <data name="Settings_RawString" xml:space="preserve">
+    <value>原始字符串</value>
+  </data>
+  <data name="Settings_NoDebug" xml:space="preserve">
+    <value>无调试</value>
+  </data>
+  <data name="Settings_Luaj" xml:space="preserve">
+    <value>Luaj</value>
+  </data>
+  <data name="Settings_OpcodeMap" xml:space="preserve">
+    <value>操作码映射</value>
+  </data>
+
+  <!-- 对话框 -->
+  <data name="Dialog_OK" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="Dialog_Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Dialog_Add" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="Dialog_Remove" xml:space="preserve">
+    <value>移除</value>
+  </data>
+  <data name="Dialog_Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="Dialog_Delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="Dialog_Clear" xml:space="preserve">
+    <value>清除</value>
+  </data>
+  <data name="Dialog_Download" xml:space="preserve">
+    <value>下载</value>
+  </data>
+  <data name="Dialog_Refresh" xml:space="preserve">
+    <value>刷新</value>
+  </data>
+  <data name="Dialog_Close" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="Dialog_CloseAllTabs" xml:space="preserve">
+    <value>关闭所有选项卡</value>
+  </data>
+  <data name="Dialog_CloseOtherTabs" xml:space="preserve">
+    <value>关闭其他选项卡</value>
+  </data>
+  <data name="Dialog_ExportRawData" xml:space="preserve">
+    <value>导出原始数据</value>
+  </data>
+  <data name="Dialog_SaveProperties" xml:space="preserve">
+    <value>保存属性</value>
+  </data>
+  <data name="Dialog_SaveTexture" xml:space="preserve">
+    <value>保存纹理</value>
+  </data>
+  <data name="Dialog_SaveModel" xml:space="preserve">
+    <value>保存模型</value>
+  </data>
+  <data name="Dialog_SaveAnimation" xml:space="preserve">
+    <value>保存动画</value>
+  </data>
+  <data name="Dialog_SaveAudio" xml:space="preserve">
+    <value>保存音频</value>
+  </data>
+  <data name="Dialog_OpenProperties" xml:space="preserve">
+    <value>打开属性</value>
+  </data>
+  <data name="Dialog_JumptoPackageFolder" xml:space="preserve">
+    <value>跳转到资源包文件夹</value>
+  </data>
+  <data name="Dialog_CopyPackagePath" xml:space="preserve">
+    <value>复制资源包路径</value>
+  </data>
+  <data name="Dialog_FindReferences" xml:space="preserve">
+    <value>查找引用</value>
+  </data>
+  <data name="Dialog_OpenImage" xml:space="preserve">
+    <value>打开图片</value>
+  </data>
+  <data name="Dialog_Copy" xml:space="preserve">
+    <value>复制</value>
+  </data>
+
+  <!-- 关于对话框 -->
+  <data name="About_MadeWith" xml:space="preserve">
+    <value>由 Asval ♥ 制作</value>
+  </data>
+  <data name="About_Description" xml:space="preserve">
+    <value>描述</value>
+  </data>
+  <data name="About_Contributors" xml:space="preserve">
+    <value>贡献者</value>
+  </data>
+  <data name="About_Donators" xml:space="preserve">
+    <value>捐赠者</value>
+  </data>
+  <data name="About_PoweredBy" xml:space="preserve">
+    <value>技术支持</value>
+  </data>
+
+  <!-- AES 管理器 -->
+  <data name="AES_Instruction" xml:space="preserve">
+    <value>说明</value>
+  </data>
+  <data name="AES_KeyName" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="AES_Key" xml:space="preserve">
+    <value>密钥</value>
+  </data>
+
+  <!-- 目录选择器 -->
+  <data name="DirSel_Instruction" xml:space="preserve">
+    <value>说明</value>
+  </data>
+  <data name="DirSel_DetectedGame" xml:space="preserve">
+    <value>检测到的游戏</value>
+  </data>
+  <data name="DirSel_UEVersions" xml:space="preserve">
+    <value>UE 版本</value>
+  </data>
+  <data name="DirSel_Directory" xml:space="preserve">
+    <value>目录</value>
+  </data>
+  <data name="DirSel_DragDrop" xml:space="preserve">
+    <value>拖放文件夹以快速配置新游戏</value>
+  </data>
+  <data name="DirSel_Name" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="DirSel_DeleteGame" xml:space="preserve">
+    <value>删除游戏</value>
+  </data>
+  <data name="DirSel_AddGame" xml:space="preserve">
+    <value>添加游戏</value>
+  </data>
+
+  <!-- 自定义目录 -->
+  <data name="CustDir_WhatIsThis" xml:space="preserve">
+    <value>这是什么？</value>
+  </data>
+  <data name="CustDir_Description" xml:space="preserve">
+    <value>厌倦了打开文件夹？保存自定义目录以快速跳转到您喜欢的文件夹。它们根据您当前设置的游戏保存，因此不必太惊慌。</value>
+  </data>
+  <data name="CustDir_Header" xml:space="preserve">
+    <value>标题</value>
+  </data>
+
+  <!-- 备份管理器 -->
+  <data name="Backup_Description" xml:space="preserve">
+    <value>您只能在加载新的或修改过的档案时使用备份文件。FModel 会将您的本地档案与您选择的备份文件进行比较，以筛选资源包并仅显示您需要的内容。我们为一些热门游戏提供预创建的备份，但您仍然可以创建自己的备份，它将存储游戏中所有资源包在时间 T 的信息，以供以后使用。</value>
+  </data>
+  <data name="Backup_Create" xml:space="preserve">
+    <value>创建</value>
+  </data>
+
+  <!-- 音频播放器 -->
+  <data name="Audio_Devices" xml:space="preserve">
+    <value>设备</value>
+  </data>
+  <data name="Audio_Volume" xml:space="preserve">
+    <value>音量</value>
+  </data>
+  <data name="Audio_Encoding" xml:space="preserve">
+    <value>编码</value>
+  </data>
+  <data name="Audio_Length" xml:space="preserve">
+    <value>时长</value>
+  </data>
+  <data name="Audio_BytesPerSecond" xml:space="preserve">
+    <value>字节/秒</value>
+  </data>
+  <data name="Audio_Play" xml:space="preserve">
+    <value>播放</value>
+  </data>
+  <data name="Audio_SavePlaylist" xml:space="preserve">
+    <value>保存播放列表</value>
+  </data>
+
+  <!-- 图片合并 -->
+  <data name="ImgMerger_ImagesPerRow" xml:space="preserve">
+    <value>每行图片数</value>
+  </data>
+  <data name="ImgMerger_MarginBetweenImages" xml:space="preserve">
+    <value>图片间距</value>
+  </data>
+
+  <!-- 搜索 -->
+  <data name="Search_ByPath" xml:space="preserve">
+    <value>按路径</value>
+  </data>
+  <data name="Search_MatchCase" xml:space="preserve">
+    <value>区分大小写</value>
+  </data>
+  <data name="Search_Regex" xml:space="preserve">
+    <value>正则表达式</value>
+  </data>
+  <data name="Search_SortFileSizes" xml:space="preserve">
+    <value>按文件大小排序</value>
+  </data>
+  <data name="Search_ClearSearchFilter" xml:space="preserve">
+    <value>清除搜索过滤器</value>
+  </data>
+  <data name="Search_Path" xml:space="preserve">
+    <value>路径</value>
+  </data>
+
+  <!-- 状态消息 -->
+  <data name="Status_PreviewNewExplorerSystem" xml:space="preserve">
+    <value>预览新资源浏览器系统</value>
+  </data>
+  <data name="Status_LastRefresh" xml:space="preserve">
+    <value>上次刷新</value>
+  </data>
+  <data name="Status_NoFoldersFound" xml:space="preserve">
+    <value>在档案中未找到文件夹，请确保您至少加载了一个</value>
+  </data>
+  <data name="Status_NoArchivesFound" xml:space="preserve">
+    <value>在指定目录中未找到档案</value>
+  </data>
+  <data name="Status_NoAudioToPlay" xml:space="preserve">
+    <value>目前没有可播放的音频</value>
+  </data>
+  <data name="Status_OpenOutputFolder" xml:space="preserve">
+    <value>打开输出文件夹</value>
+  </data>
+  <data name="Status_ClearLogs" xml:space="preserve">
+    <value>清除日志</value>
+  </data>
+
+  <!-- 工具提示 -->
+  <data name="Tooltip_BringSelectedFolderToView" xml:space="preserve">
+    <value>将选中的文件夹带入视图</value>
+  </data>
+  <data name="Tooltip_ExpandAll" xml:space="preserve">
+    <value>全部展开</value>
+  </data>
+  <data name="Tooltip_CollapseAll" xml:space="preserve">
+    <value>全部折叠</value>
+  </data>
+  <data name="Tooltip_Previous" xml:space="preserve">
+    <value>上一个</value>
+  </data>
+  <data name="Tooltip_Next" xml:space="preserve">
+    <value>下一个</value>
+  </data>
+  <data name="Tooltip_CloseTab" xml:space="preserve">
+    <value>关闭选项卡</value>
+  </data>
+  <data name="Tooltip_DisableAlphaChannel" xml:space="preserve">
+    <value>禁用 Alpha 通道</value>
+  </data>
+  <data name="Tooltip_OpenImage" xml:space="preserve">
+    <value>打开图片</value>
+  </data>
+  <data name="Tooltip_CopyImage" xml:space="preserve">
+    <value>复制图片</value>
+  </data>
+  <data name="Tooltip_SaveImage" xml:space="preserve">
+    <value>保存图片</value>
+  </data>
+
+</root>

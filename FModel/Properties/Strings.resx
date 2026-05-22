@@ -1,0 +1,667 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- Main Menu -->
+  <data name="Menu_Directory" xml:space="preserve">
+    <value>Directory</value>
+  </data>
+  <data name="Menu_Selector" xml:space="preserve">
+    <value>Selector</value>
+  </data>
+  <data name="Menu_AES" xml:space="preserve">
+    <value>AES</value>
+  </data>
+  <data name="Menu_Backup" xml:space="preserve">
+    <value>Backup</value>
+  </data>
+  <data name="Menu_ArchivesInfo" xml:space="preserve">
+    <value>Archives Info</value>
+  </data>
+  <data name="Menu_Packages" xml:space="preserve">
+    <value>Packages</value>
+  </data>
+  <data name="Menu_Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Menu_References" xml:space="preserve">
+    <value>References</value>
+  </data>
+  <data name="Menu_FavoriteDirectories" xml:space="preserve">
+    <value>Favorite Directories</value>
+  </data>
+  <data name="Menu_Views" xml:space="preserve">
+    <value>Views</value>
+  </data>
+  <data name="Menu_3DViewer" xml:space="preserve">
+    <value>3D Viewer</value>
+  </data>
+  <data name="Menu_AudioPlayer" xml:space="preserve">
+    <value>Audio Player</value>
+  </data>
+  <data name="Menu_ImageMerger" xml:space="preserve">
+    <value>Image Merger</value>
+  </data>
+  <data name="Menu_Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Menu_Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="Menu_Donate" xml:space="preserve">
+    <value>Donate</value>
+  </data>
+  <data name="Menu_Releases" xml:space="preserve">
+    <value>Releases</value>
+  </data>
+  <data name="Menu_BugsReport" xml:space="preserve">
+    <value>Bugs Report</value>
+  </data>
+  <data name="Menu_DiscordServer" xml:space="preserve">
+    <value>Discord Server</value>
+  </data>
+  <data name="Menu_AboutFModel" xml:space="preserve">
+    <value>About FModel</value>
+  </data>
+
+  <!-- Archives Tab -->
+  <data name="Tab_Archives" xml:space="preserve">
+    <value>Archives</value>
+  </data>
+  <data name="Tab_Folders" xml:space="preserve">
+    <value>Folders</value>
+  </data>
+  <data name="LoadingMode" xml:space="preserve">
+    <value>Loading Mode</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>Load</value>
+  </data>
+  <data name="MountPoint" xml:space="preserve">
+    <value>Mount Point</value>
+  </data>
+  <data name="FileCount" xml:space="preserve">
+    <value>File Count</value>
+  </data>
+  <data name="IsEncrypted" xml:space="preserve">
+    <value>Is Encrypted</value>
+  </data>
+  <data name="GlobalUniqueIdentifier" xml:space="preserve">
+    <value>Global Unique Identifier</value>
+  </data>
+  <data name="PackagesCount" xml:space="preserve">
+    <value>Packages Count</value>
+  </data>
+  <data name="FoldersCount" xml:space="preserve">
+    <value>Folders Count</value>
+  </data>
+  <data name="IncludedInArchive" xml:space="preserve">
+    <value>Included In Archive</value>
+  </data>
+  <data name="ArchiveMountPoint" xml:space="preserve">
+    <value>Archive Mount Point</value>
+  </data>
+  <data name="ArchiveVersion" xml:space="preserve">
+    <value>Archive Version</value>
+  </data>
+  <data name="Files" xml:space="preserve">
+    <value>Files</value>
+  </data>
+  <data name="Offset" xml:space="preserve">
+    <value>Offset</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="CompressionMethod" xml:space="preserve">
+    <value>Compression Method</value>
+  </data>
+
+  <!-- General Settings -->
+  <data name="Settings_Title" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Settings_General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="Settings_Creator" xml:space="preserve">
+    <value>Creator</value>
+  </data>
+  <data name="Settings_Models" xml:space="preserve">
+    <value>Models</value>
+  </data>
+  <data name="Settings_Keybindings" xml:space="preserve">
+    <value>Keybindings</value>
+  </data>
+  <data name="Settings_unluac" xml:space="preserve">
+    <value>unluac</value>
+  </data>
+  <data name="Settings_UI_Language" xml:space="preserve">
+    <value>UI Language</value>
+  </data>
+  <data name="Settings_Packages_Language" xml:space="preserve">
+    <value>Packages Language</value>
+  </data>
+  <data name="Settings_OutputDirectory" xml:space="preserve">
+    <value>Output Directory *</value>
+  </data>
+  <data name="Settings_ExportRawDataDirectory" xml:space="preserve">
+    <value>Export Raw Data Directory *</value>
+  </data>
+  <data name="Settings_SavePropertiesDirectory" xml:space="preserve">
+    <value>Save Properties Directory *</value>
+  </data>
+  <data name="Settings_SaveTextureDirectory" xml:space="preserve">
+    <value>Save Texture Directory *</value>
+  </data>
+  <data name="Settings_SaveAudioDirectory" xml:space="preserve">
+    <value>Save Audio Directory *</value>
+  </data>
+  <data name="Settings_DiscordRichPresence" xml:space="preserve">
+    <value>Discord Rich Presence</value>
+  </data>
+  <data name="Settings_ArchiveDirectory" xml:space="preserve">
+    <value>Archive Directory *</value>
+  </data>
+  <data name="Settings_UEVersions" xml:space="preserve">
+    <value>UE Versions *</value>
+  </data>
+  <data name="Settings_TexturePlatform" xml:space="preserve">
+    <value>Texture Platform *</value>
+  </data>
+  <data name="Settings_CompressedAudio" xml:space="preserve">
+    <value>Compressed Audio</value>
+  </data>
+  <data name="Settings_KeepDirectoryStructure" xml:space="preserve">
+    <value>Keep Directory Structure</value>
+  </data>
+  <data name="Settings_LocalMappingFile" xml:space="preserve">
+    <value>Local Mapping File (drag &amp; drop)</value>
+  </data>
+  <data name="Settings_MappingFilePath" xml:space="preserve">
+    <value>Mapping File Path</value>
+  </data>
+  <data name="Settings_GAME" xml:space="preserve">
+    <value>GAME</value>
+  </data>
+  <data name="Settings_ADVANCED" xml:space="preserve">
+    <value>ADVANCED</value>
+  </data>
+  <data name="Settings_VersioningConfiguration" xml:space="preserve">
+    <value>Versioning Configuration *</value>
+  </data>
+  <data name="Settings_CustomVersions" xml:space="preserve">
+    <value>Custom Versions</value>
+  </data>
+  <data name="Settings_Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="Settings_MapStructTypes" xml:space="preserve">
+    <value>MapStructTypes</value>
+  </data>
+  <data name="Settings_AESReloadatLaunch" xml:space="preserve">
+    <value>AES Reload at Launch</value>
+  </data>
+  <data name="Settings_EndpointConfiguration" xml:space="preserve">
+    <value>Endpoint Configuration</value>
+  </data>
+  <data name="Settings_AES" xml:space="preserve">
+    <value>AES</value>
+  </data>
+  <data name="Settings_Mapping" xml:space="preserve">
+    <value>Mapping</value>
+  </data>
+  <data name="Settings_SerializeScriptBytecode" xml:space="preserve">
+    <value>Serialize Script Bytecode</value>
+  </data>
+  <data name="Settings_SerializeInlinedShaderMaps" xml:space="preserve">
+    <value>Serialize Inlined Shader Maps</value>
+  </data>
+  <data name="Settings_DecompileBlueprinttoPseudoC" xml:space="preserve">
+    <value>Decompile Blueprint to Pseudo C++</value>
+  </data>
+  <data name="Settings_DecompileLua" xml:space="preserve">
+    <value>Decompile Lua</value>
+  </data>
+  <data name="Settings_ConvertAudioDuringExport" xml:space="preserve">
+    <value>Convert Audio During Export (.wav)</value>
+  </data>
+  <data name="Settings_CRIWAREDecryptionKey" xml:space="preserve">
+    <value>CRIWARE Decryption Key</value>
+  </data>
+  <data name="Settings_MayRequireRestart" xml:space="preserve">
+    <value>* May Require a restart for changes to take effect</value>
+  </data>
+
+  <!-- Models Settings -->
+  <data name="Settings_ModelExportDirectory" xml:space="preserve">
+    <value>Model Export Directory *</value>
+  </data>
+  <data name="Settings_MeshFormat" xml:space="preserve">
+    <value>Mesh Format</value>
+  </data>
+  <data name="Settings_SocketFormat" xml:space="preserve">
+    <value>Socket Format (ActorX)</value>
+  </data>
+  <data name="Settings_CompressionFormat" xml:space="preserve">
+    <value>Compression Format (UEFormat)</value>
+  </data>
+  <data name="Settings_LevelOfDetailFormat" xml:space="preserve">
+    <value>Level Of Detail Format</value>
+  </data>
+  <data name="Settings_PreviewMaxTextureSize" xml:space="preserve">
+    <value>Preview Max Texture Size</value>
+  </data>
+  <data name="Settings_PreviewStaticMeshes" xml:space="preserve">
+    <value>Preview Static Meshes</value>
+  </data>
+  <data name="Settings_PreviewSkeletalMeshes" xml:space="preserve">
+    <value>Preview Skeletal Meshes</value>
+  </data>
+  <data name="Settings_PreviewAnimations" xml:space="preserve">
+    <value>Preview Animations</value>
+  </data>
+  <data name="Settings_PreviewMaterials" xml:space="preserve">
+    <value>Preview Materials</value>
+  </data>
+  <data name="Settings_PreviewLevels" xml:space="preserve">
+    <value>Preview Levels (.umap)</value>
+  </data>
+  <data name="Settings_SaveMaterialsEmbeddedwithinMeshes" xml:space="preserve">
+    <value>Save Materials Embedded within Meshes</value>
+  </data>
+  <data name="Settings_SaveMorphTargetsinMeshes" xml:space="preserve">
+    <value>Save Morph Targets in Meshes</value>
+  </data>
+  <data name="Settings_HandleSkeletonsasEmptyMeshes" xml:space="preserve">
+    <value>Handle Skeletons as Empty Meshes</value>
+  </data>
+  <data name="Settings_NaniteFormat" xml:space="preserve">
+    <value>Nanite Format</value>
+  </data>
+  <data name="Settings_MaterialFormat" xml:space="preserve">
+    <value>Material Format</value>
+  </data>
+  <data name="Settings_TextureFormat" xml:space="preserve">
+    <value>Texture Format</value>
+  </data>
+  <data name="Settings_SaveHDRTexturesasRadiance" xml:space="preserve">
+    <value>Save HDR Textures as Radiance .hdr</value>
+  </data>
+
+  <!-- Creator Settings -->
+  <data name="Settings_CosmeticStyle" xml:space="preserve">
+    <value>Cosmetic Style</value>
+  </data>
+  <data name="Settings_CosmeticShopIcon" xml:space="preserve">
+    <value>Cosmetic Shop Icon</value>
+  </data>
+
+  <!-- Keybindings -->
+  <data name="Settings_LeftSwitchonDirectoryTab" xml:space="preserve">
+    <value>Left Switch on Directory Tab</value>
+  </data>
+  <data name="Settings_RightSwitchonDirectoryTab" xml:space="preserve">
+    <value>Right Switch on Directory Tab</value>
+  </data>
+  <data name="Settings_SwitchAssetExplorer" xml:space="preserve">
+    <value>Switch Asset Explorer</value>
+  </data>
+  <data name="Settings_LeftSwitchonAssetTab" xml:space="preserve">
+    <value>Left Switch on Asset Tab</value>
+  </data>
+  <data name="Settings_RightSwitchonAssetTab" xml:space="preserve">
+    <value>Right Switch on Asset Tab</value>
+  </data>
+  <data name="Settings_AddAssetTab" xml:space="preserve">
+    <value>Add Asset Tab</value>
+  </data>
+  <data name="Settings_RemoveSelectedAssetTab" xml:space="preserve">
+    <value>Remove Selected Asset Tab</value>
+  </data>
+  <data name="Settings_AddAudioFile" xml:space="preserve">
+    <value>Add Audio File</value>
+  </data>
+  <data name="Settings_PlayPauseCurrentAudio" xml:space="preserve">
+    <value>Play / Pause Current Audio</value>
+  </data>
+  <data name="Settings_PreviousAudio" xml:space="preserve">
+    <value>Previous Audio</value>
+  </data>
+  <data name="Settings_NextAudio" xml:space="preserve">
+    <value>Next Audio</value>
+  </data>
+
+  <!-- unluac Settings -->
+  <data name="Settings_Mode" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="Settings_Decompile" xml:space="preserve">
+    <value>Decompile</value>
+  </data>
+  <data name="Settings_Disassemble" xml:space="preserve">
+    <value>Disassemble</value>
+  </data>
+  <data name="Settings_RawString" xml:space="preserve">
+    <value>Raw string</value>
+  </data>
+  <data name="Settings_NoDebug" xml:space="preserve">
+    <value>No debug</value>
+  </data>
+  <data name="Settings_Luaj" xml:space="preserve">
+    <value>Luaj</value>
+  </data>
+  <data name="Settings_OpcodeMap" xml:space="preserve">
+    <value>OpcodeMap</value>
+  </data>
+
+  <!-- Dialogs -->
+  <data name="Dialog_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Dialog_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Dialog_Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Dialog_Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="Dialog_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Dialog_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Dialog_Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Dialog_Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="Dialog_Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Dialog_Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Dialog_CloseAllTabs" xml:space="preserve">
+    <value>Close All Tabs</value>
+  </data>
+  <data name="Dialog_CloseOtherTabs" xml:space="preserve">
+    <value>Close Other Tabs</value>
+  </data>
+  <data name="Dialog_ExportRawData" xml:space="preserve">
+    <value>Export Raw Data</value>
+  </data>
+  <data name="Dialog_SaveProperties" xml:space="preserve">
+    <value>Save Properties</value>
+  </data>
+  <data name="Dialog_SaveTexture" xml:space="preserve">
+    <value>Save Texture</value>
+  </data>
+  <data name="Dialog_SaveModel" xml:space="preserve">
+    <value>Save Model</value>
+  </data>
+  <data name="Dialog_SaveAnimation" xml:space="preserve">
+    <value>Save Animation</value>
+  </data>
+  <data name="Dialog_SaveAudio" xml:space="preserve">
+    <value>Save Audio</value>
+  </data>
+  <data name="Dialog_OpenProperties" xml:space="preserve">
+    <value>Open Properties</value>
+  </data>
+  <data name="Dialog_JumptoPackageFolder" xml:space="preserve">
+    <value>Jump to Package Folder</value>
+  </data>
+  <data name="Dialog_CopyPackagePath" xml:space="preserve">
+    <value>Copy Package Path</value>
+  </data>
+  <data name="Dialog_FindReferences" xml:space="preserve">
+    <value>Find References</value>
+  </data>
+  <data name="Dialog_OpenImage" xml:space="preserve">
+    <value>Open Image</value>
+  </data>
+  <data name="Dialog_Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+
+  <!-- About Dialog -->
+  <data name="About_MadeWith" xml:space="preserve">
+    <value>Made with ♥ by Asval</value>
+  </data>
+  <data name="About_Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="About_Contributors" xml:space="preserve">
+    <value>Contributors</value>
+  </data>
+  <data name="About_Donators" xml:space="preserve">
+    <value>Donators</value>
+  </data>
+  <data name="About_PoweredBy" xml:space="preserve">
+    <value>Powered by</value>
+  </data>
+
+  <!-- AES Manager -->
+  <data name="AES_Instruction" xml:space="preserve">
+    <value>Instruction</value>
+  </data>
+  <data name="AES_KeyName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="AES_Key" xml:space="preserve">
+    <value>Key</value>
+  </data>
+
+  <!-- Directory Selector -->
+  <data name="DirSel_Instruction" xml:space="preserve">
+    <value>Instruction</value>
+  </data>
+  <data name="DirSel_DetectedGame" xml:space="preserve">
+    <value>Detected Game</value>
+  </data>
+  <data name="DirSel_UEVersions" xml:space="preserve">
+    <value>UE Versions</value>
+  </data>
+  <data name="DirSel_Directory" xml:space="preserve">
+    <value>Directory</value>
+  </data>
+  <data name="DirSel_DragDrop" xml:space="preserve">
+    <value>Drag &amp; drop folder to quickly configure new game</value>
+  </data>
+  <data name="DirSel_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="DirSel_DeleteGame" xml:space="preserve">
+    <value>Delete Game</value>
+  </data>
+  <data name="DirSel_AddGame" xml:space="preserve">
+    <value>Add Game</value>
+  </data>
+
+  <!-- Custom Directory -->
+  <data name="CustDir_WhatIsThis" xml:space="preserve">
+    <value>What is this?</value>
+  </data>
+  <data name="CustDir_Description" xml:space="preserve">
+    <value>Bored of opening folders? Save custom directories to quickly jump to your favorite folder. They are saved according to your current set game, so don't freak out too fast.</value>
+  </data>
+  <data name="CustDir_Header" xml:space="preserve">
+    <value>Header</value>
+  </data>
+
+  <!-- Backup Manager -->
+  <data name="Backup_Description" xml:space="preserve">
+    <value>You can only use backup files when loading new &amp; modified archives. FModel will compare your local archives with the backup file you selected to filter packages and only show what you asked. We provide pre-created backups for some popular games but you can still create your own that will store information about all the game's packages at time T, for later use.</value>
+  </data>
+  <data name="Backup_Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+
+  <!-- Audio Player -->
+  <data name="Audio_Devices" xml:space="preserve">
+    <value>Devices</value>
+  </data>
+  <data name="Audio_Volume" xml:space="preserve">
+    <value>Volume</value>
+  </data>
+  <data name="Audio_Encoding" xml:space="preserve">
+    <value>Encoding</value>
+  </data>
+  <data name="Audio_Length" xml:space="preserve">
+    <value>Length</value>
+  </data>
+  <data name="Audio_BytesPerSecond" xml:space="preserve">
+    <value>Bytes Per Second</value>
+  </data>
+  <data name="Audio_Play" xml:space="preserve">
+    <value>Play</value>
+  </data>
+  <data name="Audio_SavePlaylist" xml:space="preserve">
+    <value>Save Playlist</value>
+  </data>
+
+  <!-- Image Merger -->
+  <data name="ImgMerger_ImagesPerRow" xml:space="preserve">
+    <value>Images Per Row</value>
+  </data>
+  <data name="ImgMerger_MarginBetweenImages" xml:space="preserve">
+    <value>Margin Between Images</value>
+  </data>
+
+  <!-- Search -->
+  <data name="Search_ByPath" xml:space="preserve">
+    <value>By Path</value>
+  </data>
+  <data name="Search_MatchCase" xml:space="preserve">
+    <value>Match Case</value>
+  </data>
+  <data name="Search_Regex" xml:space="preserve">
+    <value>Regex</value>
+  </data>
+  <data name="Search_SortFileSizes" xml:space="preserve">
+    <value>Sort File Sizes</value>
+  </data>
+  <data name="Search_ClearSearchFilter" xml:space="preserve">
+    <value>Clear Search Filter</value>
+  </data>
+  <data name="Search_Path" xml:space="preserve">
+    <value>Path</value>
+  </data>
+
+  <!-- Status Messages -->
+  <data name="Status_PreviewNewExplorerSystem" xml:space="preserve">
+    <value>Preview New Explorer System</value>
+  </data>
+  <data name="Status_LastRefresh" xml:space="preserve">
+    <value>Last Refresh</value>
+  </data>
+  <data name="Status_NoFoldersFound" xml:space="preserve">
+    <value>No folders found in archives, make sure you loaded at least one</value>
+  </data>
+  <data name="Status_NoArchivesFound" xml:space="preserve">
+    <value>No archives found in the specified directory</value>
+  </data>
+  <data name="Status_NoAudioToPlay" xml:space="preserve">
+    <value>No audio to play at the moment</value>
+  </data>
+  <data name="Status_OpenOutputFolder" xml:space="preserve">
+    <value>Open Output Folder</value>
+  </data>
+  <data name="Status_ClearLogs" xml:space="preserve">
+    <value>Clear Logs</value>
+  </data>
+
+  <!-- Tooltips -->
+  <data name="Tooltip_BringSelectedFolderToView" xml:space="preserve">
+    <value>Bring Selected Folder To View</value>
+  </data>
+  <data name="Tooltip_ExpandAll" xml:space="preserve">
+    <value>Expand All</value>
+  </data>
+  <data name="Tooltip_CollapseAll" xml:space="preserve">
+    <value>Collapse All</value>
+  </data>
+  <data name="Tooltip_Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="Tooltip_Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="Tooltip_CloseTab" xml:space="preserve">
+    <value>Close Tab</value>
+  </data>
+  <data name="Tooltip_DisableAlphaChannel" xml:space="preserve">
+    <value>Disable Alpha Channel</value>
+  </data>
+  <data name="Tooltip_OpenImage" xml:space="preserve">
+    <value>Open Image</value>
+  </data>
+  <data name="Tooltip_CopyImage" xml:space="preserve">
+    <value>Copy Image</value>
+  </data>
+  <data name="Tooltip_SaveImage" xml:space="preserve">
+    <value>Save Image</value>
+  </data>
+
+</root>
